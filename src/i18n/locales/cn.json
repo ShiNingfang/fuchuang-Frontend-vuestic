@@ -91,6 +91,12 @@
     "persian": "波斯语"
   },
   "menu": {
+    "projects": "项目管理",
+    "mineProject": "我方发起",
+    "mineProject1": "我方发起1",
+    "otherProject": "我方参与",
+    "AttackTest": "攻击模拟",
+
     "auth": "授权",
     "buttons": "按钮",
     "timelines": "时间线",

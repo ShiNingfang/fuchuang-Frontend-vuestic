@@ -39,7 +39,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: 'projects',
         path: 'projects',
-        component: () => import('../pages/projects/ProjectsPage.vue'),
+        component: RouteViewComponent,
+        redirect: { name: 'mineProject' },
+        children: [
+          {
+            name: 'mineProject',
+            path: 'mine',
+            component: () => import('../pages/a_MineProject/ProjectsPage.vue'),
+          },
+          // {
+          //   name: 'AttackTest',
+          //   path: 'attack',
+          //   component: () => import('../pages/a_AttackTest/Attack.vue'),
+          // },
+        ],
       },
       {
         name: 'payments',
