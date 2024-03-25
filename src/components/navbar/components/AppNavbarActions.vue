@@ -7,7 +7,7 @@
       href="https://admin.vuestic.dev/"
       target="_blank"
       color="textPrimary"
-      class="app-navbar-actions__item flex-shrink-0 mx-0"
+      class="flex-shrink-0 mx-0 app-navbar-actions__item"
     >
       {{ t('aboutVuesticAdmin') }}
     </VaButton>
@@ -17,12 +17,12 @@
       href="https://discord.gg/u7fQdqQt8c"
       target="_blank"
       color="textPrimary"
-      class="app-navbar-actions__item flex-shrink-0 mx-0"
+      class="flex-shrink-0 mx-0 app-navbar-actions__item"
     >
       {{ t('helpAndSupport') }}
     </VaButton>
     <NotificationDropdown class="app-navbar-actions__item" />
-    <ProfileDropdown class="app-navbar-actions__item app-navbar-actions__item--profile mr-1" />
+    <ProfileDropdown class="mr-1 app-navbar-actions__item app-navbar-actions__item--profile" />
   </div>
 </template>
 

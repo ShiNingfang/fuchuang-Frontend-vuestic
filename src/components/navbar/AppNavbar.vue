@@ -1,8 +1,8 @@
 <template>
-  <VaNavbar class="app-layout-navbar py-2 px-0">
+  <VaNavbar class="px-0 py-2 app-layout-navbar">
     <template #left>
       <div class="left">
-        <Transition v-if="isMobile" name="icon-fade" mode="out-in">
+        <!-- <Transition v-if="isMobile" name="icon-fade" mode="out-in">
           <VaIcon
             color="primary"
             :name="isSidebarMinimized ? 'menu' : 'close'"
@@ -13,7 +13,13 @@
         </Transition>
         <RouterLink to="/" aria-label="Visit home page">
           <VuesticLogo />
-        </RouterLink>
+        </RouterLink> -->
+        <!-- <div :class="{ minimized: isSidebarMinimized }" class="app-layout__sidebar-wrapper">
+          <div v-if="isFullScreenSidebar" class="flex justify-end">
+            <VaButton class="px-4 py-4" icon="md_close" preset="plain" @click="onCloseSidebarButtonClick" />
+          </div>
+        </div> -->
+        <AppLayoutNavigation v-if="!isMobile" class="p-4" />
       </div>
     </template>
     <template #right>
@@ -27,6 +33,7 @@ import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/global-store'
 import AppNavbarActions from './components/AppNavbarActions.vue'
 import VuesticLogo from '../VuesticLogo.vue'
+import AppLayoutNavigation from '../app-layout-navigation/AppLayoutNavigation.vue'
 
 defineProps({
   isMobile: { type: Boolean, default: false },

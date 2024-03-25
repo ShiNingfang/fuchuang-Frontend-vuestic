@@ -12,7 +12,7 @@
             role="button"
             hover-opacity="0.10"
           >
-            <VaSidebarItemContent class="py-3 pr-2 pl-4">
+            <VaSidebarItemContent class="py-3 pl-4 pr-2">
               <VaIcon
                 v-if="route.meta.icon"
                 aria-hidden="true"
@@ -20,7 +20,7 @@
                 size="20px"
                 :color="iconColor(route)"
               />
-              <VaSidebarItemTitle class="flex justify-between items-center leading-5 font-semibold">
+              <VaSidebarItemTitle class="flex items-center justify-between font-semibold leading-5">
                 {{ t(route.displayName) }}
                 <VaIcon v-if="route.children" :name="arrowDirection(isCollapsed)" size="20px" />
               </VaSidebarItemTitle>
@@ -38,7 +38,7 @@
               hover-opacity="0.10"
             >
               <VaSidebarItemContent class="py-3 pr-2 pl-11">
-                <VaSidebarItemTitle class="leading-5 font-semibold">
+                <VaSidebarItemTitle class="font-semibold leading-5">
                   {{ t(childRoute.displayName) }}
                 </VaSidebarItemTitle>
               </VaSidebarItemContent>
@@ -91,7 +91,7 @@ export default defineComponent({
     const setActiveExpand = () =>
       (value.value = navigationRoutes.routes.map((route: INavigationRoute) => routeHasActiveChild(route)))
 
-    const sidebarWidth = computed(() => (props.mobile ? '100vw' : '280px'))
+    const sidebarWidth = computed(() => (props.mobile ? '100vw' : '250px'))
     const color = computed(() => getColor('background-secondary'))
     const activeColor = computed(() => colorToRgba(getColor('focus'), 0.1))
 

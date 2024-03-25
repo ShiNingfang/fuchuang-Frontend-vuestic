@@ -135,7 +135,7 @@
           </ul>
           <p class="va-h3">Links</p>
           <div class="mb-8">
-            <a class="link mr-8" href="/default" @click.prevent> Default Link </a>
+            <a class="mr-8 link" href="/default" @click.prevent> Default Link </a>
             <a class="link-secondary" href="/secondary" @click.prevent> Secondary Link </a>
           </div>
           <div class="mb-8">
@@ -191,9 +191,9 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-// import { useI18n } from 'vue-i18n'
-//
-// const { t } = useI18n()
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const tableData = computed(() => [
   ['Id', 'FooBar type', 'Actions'],

@@ -1,10 +1,17 @@
 <template>
   <VaLayout
-    :top="{ fixed: true, order: 2 }"
-    :left="{ fixed: true, absolute: breakpoints.mdDown, order: 1, overlay: breakpoints.mdDown && !isSidebarMinimized }"
+    :top="{ fixed: true, order: 1 }"
+    :left="{ fixed: true, absolute: breakpoints.mdDown, order: 2, overlay: breakpoints.mdDown && !isSidebarMinimized }"
     @leftOverlayClick="isSidebarMinimized = true"
   >
     <template #top>
+      <!-- <div :class="{ minimized: isSidebarMinimized }" class="app-layout__sidebar-wrapper">
+        <div v-if="isFullScreenSidebar" class="flex justify-end">
+          <VaButton class="px-4 py-4" icon="md_close" preset="plain" @click="onCloseSidebarButtonClick" />
+        </div>
+      </div>
+      <AppLayoutNavigation v-if="!isMobile" class="p-4" /> -->
+
       <AppNavbar :is-mobile="isMobile" />
     </template>
 
@@ -13,12 +20,6 @@
     </template>
 
     <template #content>
-      <div :class="{ minimized: isSidebarMinimized }" class="app-layout__sidebar-wrapper">
-        <div v-if="isFullScreenSidebar" class="flex justify-end">
-          <VaButton class="px-4 py-4" icon="md_close" preset="plain" @click="onCloseSidebarButtonClick" />
-        </div>
-      </div>
-      <AppLayoutNavigation v-if="!isMobile" class="p-4" />
       <main class="p-4 pt-0">
         <article>
           <RouterView />
@@ -86,7 +87,10 @@ const onCloseSidebarButtonClick = () => {
 // Prevent icon jump on animation
 .va-sidebar {
   width: unset !important;
-  min-width: unset !important;
+  min-width: 60px !important;
+}
+.p-4 {
+  padding: 0;
 }
 </style>
 ../stores/modules/global-store

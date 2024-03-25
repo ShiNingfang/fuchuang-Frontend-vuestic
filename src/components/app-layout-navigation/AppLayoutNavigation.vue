@@ -88,10 +88,8 @@ const handleBreadcrumbClick = (item: BreadcrumbNavigationItem) => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
+<style scoped>
 .x-flip {
   transform: scaleX(-100%);
 }
 </style>
-../../stores/modules/global-store

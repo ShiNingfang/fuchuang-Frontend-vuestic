@@ -94,18 +94,14 @@
               <!-- Tab -->
               <template #bottom-pane>
                 <ElTabs
-                  v-model:value="TabActiveName"
+                  v-model="TabActiveName"
                   style="margin-top: 0px; height: 100%; overflow-y: auto"
                   type="border-card"
                 >
                   <ElTabPane label="日志" name="logger">
-                    <!-- <div
-                      v-for="(log, index) in logMessages"
-                      :key="index"
-                      style="color: #888"
-                    >
+                    <div v-for="(log, index) in logMessages" :key="index" style="color: #888">
                       {{ log }}
-                    </div> -->
+                    </div>
                   </ElTabPane>
                   <ElTabPane
                     v-if="hasResult"
@@ -115,7 +111,7 @@
                     label="攻击模拟结果展示"
                     name="result"
                   >
-                    <ElCollapse v-model:value="output_attack">
+                    <ElCollapse v-model="output_attack">
                       <ElCollapseItem v-if="hasmetrics" title="雷达图" name="radar">
                         <div id="RadarChart" style="width: 100%; height: 400px" />
                       </ElCollapseItem>
@@ -146,11 +142,23 @@ import { getFlowChartData } from '@/api/task'
 import { taskboard_getSimples } from '@/api/minedata'
 import FlowChart from '@/utils/AttackFlow/index'
 import PluginFlowExec from '@/utils/AttackFlow/pluginFlowExec'
-
 import { fetchList } from '@/api/minedata'
 import waves from '@/directive/waves' // waves directive
-
 import * as echarts from 'echarts'
+import { useAttackLoggerStore } from '@/stores/attack_logger' // 假设这是你的Pinia store路径
+
+// 引入图片资源
+import result1 from '@/assets/attack_images/result1.png'
+import result2 from '@/assets/attack_images/result2.png'
+import result3 from '@/assets/attack_images/result3.png'
+import result4 from '@/assets/attack_images/result4.png'
+import result5 from '@/assets/attack_images/result5.png'
+import result6 from '@/assets/attack_images/result6.png'
+import result7 from '@/assets/attack_images/result7.png'
+import result8 from '@/assets/attack_images/result8.png'
+import result9 from '@/assets/attack_images/result9.png'
+import result10 from '@/assets/attack_images/result10.png'
+import result11 from '@/assets/attack_images/result11.png'
 
 FlowChart.use(PluginFlowExec)
 
@@ -162,6 +170,8 @@ export default {
   },
   data() {
     return {
+      attackLoggerStore: useAttackLoggerStore(),
+
       isShowNode: true,
       isShowTab: true,
       currentNodeId: '',
@@ -171,21 +181,8 @@ export default {
       hasmetrics: false,
       haspic: false,
       picList: [],
-      picList1: [
-        // require('@/assets/attack_images/result1.png'),
-        // require('@/assets/attack_images/result2.png'),
-        // require('@/assets/attack_images/result3.png'),
-        // require('@/assets/attack_images/result4.png'),
-        // require('@/assets/attack_images/result5.png'),
-        // require('@/assets/attack_images/result6.png'),
-        // require('@/assets/attack_images/result7.png'),
-        // require('@/assets/attack_images/result8.png'),
-        // require('@/assets/attack_images/result9.png'),
-        // require('@/assets/attack_images/result10.png'),
-      ],
-      picList2: [
-        // require('@/assets/attack_images/result11.png')
-      ],
+      picList1: [result1, result2, result3, result4, result5, result6, result7, result8, result9, result10],
+      picList2: [result11],
 
       sourceTable: [],
       TabActiveName: 'logger',
@@ -210,9 +207,9 @@ export default {
     tab_outerSplitPaneSize() {
       return this.isShowTab ? 60 : 100 // 60 100
     },
-    // logMessages() {
-    //   return this.$store.getters.attack_logs
-    // },
+    logMessages() {
+      return this.attackLoggerStore.logs
+    },
   },
   watch: {
     currentNodeId(val) {
@@ -290,9 +287,9 @@ export default {
       this.isExecDisable = true
       this.isShowNode = true
       this.isShowTab = true
-      // FlowChart.runModel(this.$store).then(() => {
-      //   this.isExecDisable = false
-      // })
+      FlowChart.runModel(this.attackLoggerStore).then(() => {
+        this.isExecDisable = false
+      })
     },
     saveData() {
       const modelData = FlowChart.getModelData()

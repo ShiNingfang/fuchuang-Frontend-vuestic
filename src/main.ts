@@ -21,9 +21,9 @@ for (const [key, component] of Object.entries(icons)) {
   app.component(key, component)
 }
 
+app.use(i18n)
 app.use(stores)
 app.use(router)
-app.use(i18n)
 app.use(ElementPlus)
 app.use(createVuestic({ config: vuesticGlobalConfig }))
 

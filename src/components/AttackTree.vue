@@ -1,11 +1,11 @@
 <template>
-  <el-aside width="240px" class="left">
+  <ElAside width="240px" class="left">
     <div class="search">
-      <el-input v-model:value="filterText" placeholder="搜索" size="small">
-        <el-icon class="el-input__icon"><Search /></el-icon>
-      </el-input>
+      <ElInput v-model:value="filterText" placeholder="搜索" size="small">
+        <!-- <ElIcon><Search /></ElIcon> -->
+      </ElInput>
     </div>
-    <el-tree
+    <ElTree
       ref="tree2"
       :data="nodeData"
       node-key="id"
@@ -15,20 +15,23 @@
       :filter-node-method="filterNode"
       :props="defaultProps"
     />
-  </el-aside>
+  </ElAside>
 </template>
 
 <script>
 import * as Vue from 'vue'
 import { getMenuAttack } from '@/api/task'
-import {Coin, MagicStick, StarFilled, ArrowRight} from '@element-plus/icons-vue'
+import { Search, Coin, MagicStick, StarFilled } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 
 export default {
   components: {
+    ElIcon,
+    Search,
     Coin,
     MagicStick,
-    StarFilled
+    StarFilled,
+    // ArrowRight,
   },
   data() {
     return {
@@ -53,61 +56,75 @@ export default {
   methods: {
     // kkkk
     renderContentFunction(h, { node, data }) {
-      const className = node.expanded
-        ? 'FolderOpened'
-        : 'Folder';
-      const classNameChild = !data.children && data.icon ? data.icon : '';
+      const className = node.expanded ? 'FolderOpened' : 'Folder'
+      const classNameChild = !data.children && data.icon ? data.icon : ''
 
-      return h('div', {
-        class: { leafNode: !data.children },
-        style: {
-          height: '38px',
-          lineHeight: '38px',
-          fontSize: '12px',
-          color: '#1b1c23',
+      return h(
+        'div',
+        {
+          class: { leafNode: !data.children },
+          style: {
+            height: '38px',
+            lineHeight: '38px',
+            fontSize: '12px',
+            color: '#1b1c23',
+          },
         },
-      }, [
-        h('el-tooltip', {
-          content: data.label,
-          placement: 'top-end',
-          disabled: !!data.children,
-        }, [
-          h('span', {
-            draggable: !data.children,
-            id: data.id,
-            onDragstart: this.dragHandle, // 注意事件监听的变化
-            class: 'node',
-            style: {
-              display: 'inline-block',
-              marginTop: '4px',
-              height: '30px',
-              lineHeight: '30px',
-              width: '140px',
-              borderRadius: '4px',
-              position: 'relative',
-              outline: 'none',
-              border: !data.children ? '1px solid transparent' : 'none',
+        [
+          h(
+            'el-tooltip',
+            {
+              content: data.label,
+              placement: 'top-end',
+              disabled: !!data.children,
             },
-          }, [
-            h('i', {
-              class: {
-                [className]: !!data.children,
-                [classNameChild]: !data.children,
-              },
-              style: {
-                color: '#00cdea',
-                marginLeft: data.children ? '10px' : '15px',
-              },
-            }),
-            h('span', {
-              style: {
-                fontSize: '13px',
-                marginLeft: '10px',
-              },
-            }, data.label),
-          ]),
-        ]),
-      ]);
+            [
+              h(
+                'span',
+                {
+                  draggable: !data.children,
+                  id: data.id,
+                  onDragstart: this.dragHandle, // 注意事件监听的变化
+                  class: 'node',
+                  style: {
+                    display: 'inline-block',
+                    marginTop: '4px',
+                    height: '30px',
+                    lineHeight: '30px',
+                    width: '140px',
+                    borderRadius: '4px',
+                    position: 'relative',
+                    outline: 'none',
+                    border: !data.children ? '1px solid transparent' : 'none',
+                  },
+                },
+                [
+                  h('i', { // 这里不就是树的图标吗
+                    class: {
+                      [className]: !!data.children,
+                      [classNameChild]: !data.children,
+                    },
+                    style: {
+                      color: '#00cdea',
+                      marginLeft: data.children ? '10px' : '15px',
+                    },
+                  }),
+                  h(
+                    'span',
+                    {
+                      style: {
+                        fontSize: '13px',
+                        marginLeft: '10px',
+                      },
+                    },
+                    data.label,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      )
     },
     // renderContentFunction(h, { node, data }) {
     //   const className = node.expanded
