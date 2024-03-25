@@ -23,3 +23,4 @@ import Invoices from './Invoices.vue'
 const cardStore = usePaymentCardsStore()
 cardStore.load()
 </script>
+../../stores/modules/payment-cards

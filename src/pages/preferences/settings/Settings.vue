@@ -93,3 +93,4 @@ const toggle2FA = () => {
 
 const emits = defineEmits(['openNameModal', 'openResetPasswordModal'])
 </script>
+../../../stores/modules/user-store

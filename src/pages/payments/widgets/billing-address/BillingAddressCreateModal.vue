@@ -41,3 +41,4 @@ const update = (address: BillingAddress) => {
   emits('close')
 }
 </script>
+../../../../stores/modules/billing-addresses

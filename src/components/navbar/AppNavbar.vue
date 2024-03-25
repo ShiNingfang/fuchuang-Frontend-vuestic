@@ -77,3 +77,4 @@ const { isSidebarMinimized } = storeToRefs(GlobalStore)
   transform: scale(0.5);
 }
 </style>
+../../stores/modules/global-store

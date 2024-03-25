@@ -13,3 +13,4 @@ import { useUserStore } from '../../../stores/user-store'
 
 const store = useUserStore()
 </script>
+../../../stores/modules/user-store

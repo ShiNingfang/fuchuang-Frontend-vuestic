@@ -94,3 +94,4 @@ const handleBreadcrumbClick = (item: BreadcrumbNavigationItem) => {
   transform: scaleX(-100%);
 }
 </style>
+../../stores/modules/global-store

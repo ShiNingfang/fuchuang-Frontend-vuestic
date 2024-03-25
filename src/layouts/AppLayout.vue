@@ -89,3 +89,4 @@ const onCloseSidebarButtonClick = () => {
   min-width: unset !important;
 }
 </style>
+../stores/modules/global-store

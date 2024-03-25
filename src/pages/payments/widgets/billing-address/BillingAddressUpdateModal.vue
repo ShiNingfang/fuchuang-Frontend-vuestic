@@ -35,3 +35,4 @@ const updateCard = (address: BillingAddress) => {
   emits('close')
 }
 </script>
+../../../../stores/modules/billing-addresses

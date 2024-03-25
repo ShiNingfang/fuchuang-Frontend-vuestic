@@ -76,3 +76,4 @@ const remove = async (card: PaymentCard) => {
 
 const { getColor, colorToRgba } = useColors()
 </script>
+../../../../stores/modules/payment-cards

@@ -77,3 +77,4 @@ const remove = async (card: BillingAddress) => {
 
 const { getColor, colorToRgba } = useColors()
 </script>
+../../../../stores/modules/billing-addresses

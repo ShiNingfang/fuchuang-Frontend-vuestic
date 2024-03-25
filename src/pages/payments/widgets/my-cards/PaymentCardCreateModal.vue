@@ -34,3 +34,4 @@ const updateCard = (card: PaymentCard) => {
   emits('close')
 }
 </script>
+../../../../stores/modules/payment-cards

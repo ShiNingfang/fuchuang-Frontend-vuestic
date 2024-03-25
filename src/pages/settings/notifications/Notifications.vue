@@ -17,3 +17,4 @@ import { useNotificationsStore } from '../../../stores/notifications'
 
 const { notifications } = useNotificationsStore()
 </script>
+../../../stores/modules/notifications

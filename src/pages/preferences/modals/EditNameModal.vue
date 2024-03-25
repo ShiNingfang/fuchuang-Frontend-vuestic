@@ -50,3 +50,4 @@ const submit = () => {
   min-width: 326px;
 }
 </style>
+../../../stores/modules/user-store
