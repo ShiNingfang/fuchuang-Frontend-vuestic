@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable class-methods-use-this */
 import editor from './editor'
 
 const commandStack = {
@@ -34,7 +36,6 @@ class Command {
  */
 class AddNodeCommand extends Command {
   exec(position, elId) {
-    console.log('AddNodeCommand')
     this.id = editor.addNodeByDrag(position, elId)
   }
 

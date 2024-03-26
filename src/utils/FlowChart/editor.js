@@ -1,5 +1,5 @@
-import { plantRenderPara } from '../gogocodeTransfer'
-import { $children } from '../gogocodeTransfer'
+import { plantRenderPara } from '@/utils/gogocodeTransfer'
+import { $children } from '@/utils/gogocodeTransfer'
 import Tooltip from 'tooltip.js'
 import * as Vue from 'vue'
 import Node from './Node.vue'
@@ -14,10 +14,10 @@ import { CONNECTORSEPARATESYMBOL } from './const'
 import exec, { AddConnectorCommand, MoveNodeCommand } from './Command'
 
 // kkkk
-import { createVNode, render as vueRender } from 'vue';
-
+import { createVNode, render as vueRender } from 'vue'
 
 let container = null
+const algorithmList = ['标准模式', '差分隐私', 'XNegDL', 'PPUTL', '共享数据', '同态加密']
 
 /**
  * @description 触发命令列表为空事件
@@ -160,11 +160,10 @@ function bindDragEventOnNode(newNode) {
 }
 
 function getConnectorByUuids(uuids) {
+  // console.log('getConnectorByUuids')
   const edge = uuids.join(CONNECTORSEPARATESYMBOL)
   const connectors = instance.getAllConnections()
-  const connector = connectors.find(
-    (c) => c.getUuids().join(CONNECTORSEPARATESYMBOL) === edge
-  )
+  const connector = connectors.find((c) => c.getUuids().join(CONNECTORSEPARATESYMBOL) === edge)
   return connector
 }
 
@@ -176,7 +175,8 @@ function getConnectorByUuids(uuids) {
  * @param {string} html
  * @returns {Element} 返回生成的节点
  */
-function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
+function generateNode(left, top, id, iconCLassName, contentText, nodeType, nodeState) {
+  // console.log('3' + nodeType)
   // 节点最外层div
   const newNode = document.createElement('div')
   newNode.classList.add('fy_node')
@@ -186,8 +186,6 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   newNode.id = id
   container.appendChild(newNode)
 
-  
-
   // 右键菜单
   newNode.oncontextmenu = (ev) => {
     ev.preventDefault()
@@ -196,7 +194,7 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
         left: ev.pageX,
         top: ev.pageY,
       },
-      id
+      id,
     )
 
     ev.stopPropagation()
@@ -204,33 +202,16 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
 
   // 切换选中状态
   newNode.onclick = (ev) => {
+    // console.log('nodeType:' + nodeType)
     ev.stopPropagation()
     removeClassNameSelected()
     newNode.classList.add('fy_node_selected')
-    FlowChart.emit('selectNode', id)
+    FlowChart.emit('selectNode', id, nodeType)
   }
   EventCenter.on('document.click', () => {
     removeClassNameSelected()
   })
-
-  // 使用Vue的createVNode创建虚拟节点
-  const componentVNode = createVNode(
-      Node,
-      plantRenderPara({
-          props: {
-              iconCLassName,
-              contentText,
-              nodeState,
-          },
-      })
-  );
-  
-  // 使用vueRender渲染虚拟节点到newNode上
-  vueRender(componentVNode, newNode);
-  newNode.vNode = componentVNode; // 可选：如果你需要保持对虚拟节点的引用
-
-  bindDragEventOnNode(newNode);
-
+  // kkkk
   // // 插入容器
   // const component = {
   //   render() {
@@ -241,6 +222,7 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   //           iconCLassName,
   //           contentText,
   //           nodeState,
+  //           nodeType,
   //         },
   //       })
   //     )
@@ -249,10 +231,24 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   // newNode.appendChild(component.$el)
   // newNode.vNode = component
   // bindDragEventOnNode(newNode)
+  const componentVNode = createVNode(
+    Node,
+    plantRenderPara({
+      props: {
+        iconCLassName,
+        contentText,
+        nodeState,
+        nodeType,
+      },
+    }),
+  )
+
+  // 使用vueRender渲染虚拟节点到newNode上
+  vueRender(componentVNode, newNode)
+  newNode.vNode = componentVNode // 可选：如果你需要保持对虚拟节点的引用
+
+  bindDragEventOnNode(newNode)
 }
-// kkkk
-
-
 
 /**
  * @description 根据action生成node
@@ -262,23 +258,36 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
  * @param {*} value
  * @returns
  */
-function addNodeByAction(action, position, icon, value) {
+function addNodeByAction(action, position, icon, value, type, params) {
   const containerRect = container.getBoundingClientRect()
   const scale = getScale()
-  const id = `node-${createUuid()}`
+  const id = `${type}-node-${createUuid()}`
   let left = (position.pageX - containerRect.left) / scale
   let top = (position.pageY - containerRect.top) / scale
   if (action === 'drag') {
     left -= 86
     top -= 18
   }
-  const targetEndpoints = [
-    { id: `target-${createUuid()}`, data: { value: '输入' } },
-  ]
-  const sourceEndpoints = [
-    { id: `source-${createUuid()}`, data: { value: '输出' } },
-  ]
-  generateNode(left, top, id, icon, value)
+
+  let targetEndpoints = []
+  let sourceEndpoints = []
+  if (type === '数据源') {
+    sourceEndpoints = [{ id: `source-source-${createUuid()}`, data: { value: '输出' } }]
+  } else if (algorithmList.includes(type)) {
+    targetEndpoints = [{ id: `model-target-${createUuid()}`, data: { value: '数据源' } }]
+    sourceEndpoints = [{ id: `model-source-${createUuid()}`, data: { value: '模型对比' } }]
+  } else if (type === '模型对比') {
+    targetEndpoints = [
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+      { id: `constrast-target-${createUuid()}`, data: { value: '算法模型' } },
+    ]
+  }
+  // console.log('type2 + ' + type)
+  generateNode(left, top, id, icon, type, value)
   addTargetEndpoints(id, targetEndpoints)
   addSourceEndpoints(id, sourceEndpoints)
   model.addNode({
@@ -294,6 +303,8 @@ function addNodeByAction(action, position, icon, value) {
     data: {
       icon,
       value,
+      type,
+      params,
     },
   })
   ;[...targetEndpoints].concat([...sourceEndpoints]).forEach((point) => {
@@ -308,6 +319,7 @@ function addNodeByAction(action, position, icon, value) {
  * @param {*} edges
  */
 function addConnectorsByEdges(edges) {
+  // console.log('addConnectorsByEdges')
   edges.forEach((str) => {
     instance.connect({ uuids: str.split(CONNECTORSEPARATESYMBOL) })
   })
@@ -319,13 +331,121 @@ function addConnectorsByEdges(edges) {
  * @param {stirng} elId 候选节点的id，用来获取节点信息
  */
 function addNodeByDrag(position, elId) {
-  console.log('addNodeByDrag')
-  console.log(position, elId)
   const copeNode = document.getElementById(elId)
-  console.log(copeNode)
   const contentText = copeNode.lastElementChild.innerHTML
+  const type = contentText
+
+  const { nodes } = model.getData()
+  for (const node of nodes) {
+    // console.log('node:' + node.data.type)
+    if (node.data.type === type) {
+      // console.log('重复node')
+      return // 找到重复节点后立即终止函数执行
+    }
+  }
+
+  let params = {}
+
+  if (type === '标准模式') {
+    params = {
+      choice: 0,
+      no_models: 5,
+      model_name: 'resnet50',
+      type: 'cifar',
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+    }
+  } else if (type === '差分隐私') {
+    params = {
+      choice: 1,
+      no_models: 5,
+      model_name: 'resnet50',
+      type: 'cifar',
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+      dp: true,
+      C: 1000,
+      sigma: 0.01,
+      q: 0.2,
+      w: 2,
+    }
+  } else if (type === '同态加密') {
+    params = {
+      choice: 2,
+      no_models: 5,
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+      feature_num: 30,
+    }
+  } else if (type === 'XNegDL') {
+    params = {
+      choice: 3,
+      no_models: 5,
+      model_name: 'resnet50',
+      type: 'cifar',
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+    }
+  } else if (type === 'PPUTL') {
+    params = {
+      choice: 4,
+      no_models: 5,
+      model_name: 'resnet50',
+      type: 'cifar',
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+    }
+  } else if (type === '共享数据') {
+    params = {
+      choice: 5,
+      no_models: 5,
+      model_name: 'resnet50',
+      type: 'cifar',
+      global_epochs: 5,
+      local_epochs: 1,
+      batch_size: 100,
+      k: 3,
+      lr: 0.1,
+      momentum: 0.9,
+      lambda_: 0.1,
+      prop: 0.6,
+      root: 'ndb_cifar10_data/',
+    }
+  }
+
+  // console.log('type+'+type)
   const icon = copeNode.firstElementChild.className
-  return addNodeByAction('drag', position, icon, contentText)
+  return addNodeByAction('drag', position, icon, contentText, type, params)
 }
 
 /**
@@ -335,25 +455,19 @@ function addNodeByDrag(position, elId) {
  */
 function addNodeByCopy(position, nodeId) {
   const nodeData = model.getNodeDataByNodeId(nodeId)
-  const { icon, value } = nodeData.data
-  return addNodeByAction('copy', position, icon, value)
+  const { icon, value, type } = nodeData.data
+  return addNodeByAction('copy', position, icon, value, type)
 }
 
 /**
+ *
  * @description 根据节点数据渲染节点 ，此时的动作只有一个：根据数据生成节点
  *  @param {*} nodeData
  */
 function addNodeByData(nodeData) {
   const { endpoints } = model.getData()
   const { id, position, points, data } = nodeData
-  generateNode(
-    position.left,
-    position.top,
-    id,
-    data.icon,
-    data.value,
-    data.nodeState
-  )
+  generateNode(position.left, position.top, id, data.icon, data.value, data.type, data.nodeState)
   const { targets, sources } = points
   const targetsData = endpoints.filter((item) => targets.indexOf(item.id) > -1)
   const sourcesData = endpoints.filter((item) => sources.indexOf(item.id) > -1)
@@ -366,6 +480,7 @@ function addNodeByData(nodeData) {
  * @param {*} nodeData
  */
 function addNodeByExtraData(nodeData, nodeEdgesData, nodeEndpointsData) {
+  // console.log('addNodeByExtraData')
   model.addNode(nodeData)
   nodeEdgesData.forEach((edge) => {
     model.addEdge(edge)
@@ -391,6 +506,7 @@ function addNodesByData() {
  * @description 根据给定的数据生成连接线
  */
 function addConnectorsByData() {
+  // console.log('addConnectorsByData')
   const { edges } = model.getData()
   addConnectorsByEdges(edges)
 }
@@ -401,10 +517,7 @@ function addConnectorsByData() {
  */
 function removeNode(nodeId) {
   const nodeData = model.getNodeDataByNodeId(nodeId)
-  const relatedPointIds = [
-    ...nodeData.points.sources,
-    ...nodeData.points.targets,
-  ]
+  const relatedPointIds = [...nodeData.points.sources, ...nodeData.points.targets]
   const nodeEdgesData = model.getEdgesByPointIds(relatedPointIds)
   const nodeEndpointsData = model.getEndpointsByPointIds(relatedPointIds)
   model.removeNodeByNodeId(nodeId)
@@ -419,6 +532,7 @@ function removeNode(nodeId) {
  * @param {string} edge 用于标识边的对应关系的字符串 格式：sourceId${分隔符}targetId
  */
 function addConnector(edge) {
+  // console.log('addConnector')
   instance.connect({ uuids: edge.split(CONNECTORSEPARATESYMBOL) })
   model.addEdge(edge)
 }
@@ -428,6 +542,7 @@ function addConnector(edge) {
  * @param {connector} connector 连接线对象
  */
 function removeConnector(connector) {
+  // console.log('removeConnector')
   const edge = connector.getUuids().join(CONNECTORSEPARATESYMBOL)
   model.removeEdge(edge)
   instance.deleteConnection(connector)
@@ -439,6 +554,7 @@ function removeConnector(connector) {
  * @param {array} uuids
  */
 function removeConnectorByUuids(uuids) {
+  // console.log('removeConnectorByUuids')
   removeConnector(getConnectorByUuids(uuids))
 }
 
@@ -467,6 +583,7 @@ function render() {
  * @param {array} uuids [sourceUuid,targetId]
  */
 function execAddConnectorCommand(uuids) {
+  // console.log('execAddConnectorCommand(uuids)')
   exec(AddConnectorCommand, uuids)
   model.addEdge(uuids.join(CONNECTORSEPARATESYMBOL))
 }
@@ -485,33 +602,57 @@ function bindEvent() {
         left: originalEvent.pageX,
         top: originalEvent.pageY,
       },
-      component
+      component,
     )
   })
-  instance
-    .getContainer()
-    .parentElement.addEventListener('contextmenu', (ev) => {
-      ev.preventDefault()
-      contextMenu.show({
-        left: ev.pageX,
-        top: ev.pageY,
-      })
+  instance.getContainer().parentElement.addEventListener('contextmenu', (ev) => {
+    ev.preventDefault()
+    contextMenu.show({
+      left: ev.pageX,
+      top: ev.pageY,
     })
+  })
 
   // 手动拖动创建连接事件
   instance.bind('connection', (info, ev) => {
     // 手动创建或编程connect创建线时，会触发该事件。但编程创建时ev为undefined。more：http://jsplumb.github.io/jsplumb/events.html
     if (ev) {
       const uuids = info.connection.getUuids()
+
+      const start_type = uuids[0].split('-')[0]
+      const end_type = uuids[1].split('-')[0]
+      // console.log('类型:', start_type + ', ' + end_type)
+
       execAddConnectorCommand(uuids)
+      // console.log('OK')
+
+      // const rootNodeId = model.getHead()
+      // const nodesData = model.getData().nodes // 获取节点数组
+      // const edges = model.getData().edges
+      // console.log('root: ' + rootNodeId + ', Data: ' + nodesData + ', edges: ' + edges)
+      // const traversalResult = depthFirstTraversal(rootNodeId, nodesData, edges)
+      // console.log('result: ' + traversalResult)
+
+      if ((start_type === 'source' && end_type === 'model') || (start_type === 'model' && end_type === 'constrast')) {
+        execAddConnectorCommand(uuids)
+        // console.log('OK')
+
+        // const rootNodeId = model.getHead()
+        // const nodesData = model.getData().nodes // 获取节点数组
+        // const edges = model.getData().edges
+        // // console.log('root: ' + rootNodeId + ', Data: ' + nodesData + ', edges: ' + edges)
+        // const traversalResult = breadthFirstTraversal(rootNodeId, nodesData, edges)
+        // console.log('result: ' + traversalResult)
+      } else {
+        instance.deleteConnection(info.connection)
+        // console.log('违规连线')
+      }
     }
   })
 
   // 拖动端点连线时 显示目标端点tooltip
   instance.bind('connectionDrag', () => {
-    const Nodelist = document.querySelectorAll(
-      '.jtk-endpoint.targetPoint:not(.jtk-endpoint-connected)'
-    )
+    const Nodelist = document.querySelectorAll('.jtk-endpoint.targetPoint:not(.jtk-endpoint-connected)')
     ;[].forEach.call(Nodelist, (el) => {
       el.tip.show()
     })
@@ -545,6 +686,86 @@ function init() {
   bindEvent()
 }
 
+// 在运行前执行的完整检查
+// 有根节点
+function checkGraph() {
+  // 检查每个节点和边是否符合规则
+  for (const node of model.nodes) {
+    if (node.type === '源数据' && node.edges.incoming.length > 0) {
+      return false
+    }
+    if (node.type === '求交' && node.edges.incoming.length !== 1) {
+      return false
+    }
+    if (node.type === '模型' && node.edges.incoming.length !== 1) {
+      return false
+    }
+    // 更多规则...
+  }
+
+  // 如果所有节点都符合规则，则返回true
+  return true
+}
+
+// 执行时使用的深度优先遍历（给出根节点--数据源节点）
+function depthFirstTraversal(rootId, nodes, edges, visited = new Set()) {
+  const result = []
+
+  function dfs(nodeId) {
+    // console.log('nodeId,' + nodeId)
+    const node = nodes.find((node) => node.id === nodeId)
+    if (!node || visited.has(nodeId)) {
+      return
+    }
+
+    visited.add(nodeId)
+    result.push(node.id)
+    // console.log('node-dfs: ' + node.points.sources)
+
+    const source = node.points.sources[0]
+    const connectedEdges = edges.filter((edge) => edge.startsWith(`${source}&&`))
+    connectedEdges.forEach((edge) => {
+      const target = edge.split('&&')[1]
+      const targetId = nodes.find((node) => node.points.targets.find((target1) => target1 === target)).id
+      dfs(targetId)
+    })
+  }
+
+  dfs(rootId)
+
+  return result
+}
+// 广度优先遍历
+function breadthFirstTraversal(rootId, nodes, edges, visited = new Set()) {
+  const result = []
+  const queue = [rootId] // 使用队列来管理待遍历的节点
+
+  while (queue.length > 0) {
+    const nodeId = queue.shift() // 从队列中取出一个节点进行遍历
+    // console.log('nodeId,' + nodeId)
+    const node = nodes.find((node) => node.id === nodeId)
+    if (!node || visited.has(nodeId)) {
+      continue // 如果节点不存在或已被访问，则跳过
+    }
+
+    visited.add(nodeId) // 标记节点为已访问
+    result.push(node.id) // 将节点添加到结果列表中
+    // console.log('node-bfs: ' + node.points.sources)
+
+    const source = node.points.sources[0] // 获取节点的源信息
+    const connectedEdges = edges.filter((edge) => edge.startsWith(`${source}&&`)) // 找到所有从该节点出发的边
+    connectedEdges.forEach((edge) => {
+      const target = edge.split('&&')[1] // 从边中获取目标节点标识符
+      const targetNode = nodes.find((node) => node.points.targets.find((target1) => target1 === target))
+      if (targetNode && !visited.has(targetNode.id)) {
+        queue.push(targetNode.id) // 如果目标节点未被访问，则将其添加到队列中
+      }
+    })
+  }
+
+  return result // 返回遍历结果
+}
+
 const editor = {
   emitCommandListEmpty,
   emitAddCommand,
@@ -562,6 +783,9 @@ const editor = {
   renameNode,
   execAddConnectorCommand,
   removeConnectorByUuids,
+  checkGraph,
+  depthFirstTraversal,
+  breadthFirstTraversal,
 }
 
 export default editor

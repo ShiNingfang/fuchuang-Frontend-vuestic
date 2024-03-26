@@ -89,8 +89,5 @@ const onCloseSidebarButtonClick = () => {
   width: unset !important;
   min-width: 60px !important;
 }
-.p-4 {
-  padding: 0;
-}
 </style>
 ../stores/modules/global-store

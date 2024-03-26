@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import './editorCss'
 import instance from './instance'
 import extendsEvent, { EventCenter } from './EventCenter'
@@ -23,7 +24,6 @@ const FlowChart = {
    * @param {string} elId 记录生产节点的源节点id，便于传递原节点信息
    */
   addNode(position, elId) {
-    console.log('addNode')
     exec(AddNodeCommand, position, elId)
   },
 
@@ -76,6 +76,18 @@ const FlowChart = {
     return model.getData()
   },
 
+  getNodeParams(nodeId) {
+    return model.getData().nodes.find((node) => node.id === nodeId).data.params
+  },
+
+  setNodeParams(nodeId, params) {
+    model.getData().nodes.find((node) => node.id === nodeId).data.params =
+      params
+  },
+
+  getNode(nodeId) {
+    return model.getData().nodes.find((node) => node.id === nodeId)
+  },
   /**
    * @description 插件扩展
    * @param {*} plugin 插件函数

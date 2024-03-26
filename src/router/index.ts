@@ -5,6 +5,8 @@ import AppLayout from '../layouts/AppLayout.vue'
 
 import RouteViewComponent from '../layouts/RouterBypass.vue'
 
+// 这个文件纯定义路由
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
@@ -37,20 +39,53 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/users/UsersPage.vue'),
       },
       {
+        name: 'attack',
+        path: 'attack',
+        component: () => import('../pages/a_Attack/Attack.vue'),
+        meta: { fullScreen: true },
+      },
+      {
         name: 'projects',
-        path: 'projects',
+        path: '/projects',
         component: RouteViewComponent,
-        redirect: { name: 'AttackTest' },
         children: [
-          // {
-          //   name: 'mineProject',
-          //   path: 'mine',
-          //   component: () => import('../pages/a_MineProject/ProjectsPage.vue'),
-          // },
           {
-            name: 'AttackTest',
-            path: 'attack',
-            component: () => import('../pages/a_Attack/Attack.vue'),
+            name: 'mine-project',
+            path: 'mine',
+            component: () => import('../pages/a_ProjectMine/ProjectsPage.vue'),
+          },
+          {
+            name: 'task',
+            path: 'task',
+            component: () => import('../pages/a_ProjectMine/SplitDrag.vue'),
+            meta: { fullScreen: true },
+          },
+          {
+            name: 'other-project',
+            path: 'other',
+            component: () => import('../pages/a_ProjectOther/ProjectsPage.vue'),
+          },
+        ],
+      },
+      {
+        name: 'data',
+        path: '/data',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'mine-data',
+            path: 'mine',
+            component: () => import('../pages/a_DataMine/MineDataPage.vue'),
+          },
+          {
+            name: 'other-data',
+            path: 'other',
+            component: () => import('../pages/a_DataOther/OtherDataPage.vue'),
+          },
+          {
+            name: 'auth-data',
+            path: 'auth',
+            component: () => import('../pages/a_DataAuth/AuthDataPage.vue'),
           },
         ],
       },

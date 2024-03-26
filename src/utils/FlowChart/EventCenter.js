@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-param-reassign */
 function Event() {
   this.clientList = {}
 }
@@ -48,7 +50,9 @@ export const EventCenter = new Event()
 
 export default function extendsEvent(obj) {
   const eventInstance = new Event()
+  // eslint-disable-next-line no-restricted-syntax
   for (const key in eventInstance) {
+    // for-in循环会将eventInstance原型上的方法遍历出来
     obj[key] = eventInstance[key]
   }
 }

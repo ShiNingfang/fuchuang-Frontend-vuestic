@@ -94,6 +94,14 @@ export default {
   },
 
   getHead() {
-    return FlowChartJson.head
+    return FlowChartJson.nodes.find((node) => node.data.type === '数据源').id
+  },
+
+  setStatus(nodeId, state) {
+    FlowChartJson.nodes.find((n) => n.id === nodeId).data.nodeState = state
+  },
+
+  setResult(nodeId, result) {
+    FlowChartJson.nodes.find((n) => n.id === nodeId).data.result = result
   },
 }

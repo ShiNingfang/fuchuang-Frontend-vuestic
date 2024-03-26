@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "owner": 100,
+    "path": "/path/to/mine1",
+    "name": "金矿山",
+    "number": 1,
+    "description": "这是一个丰富的金矿，深藏在山脉之中。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 50
+  },
+  {
+    "id": 2,
+    "owner": 101,
+    "path": "/path/to/mine2",
+    "name": "银矿山",
+    "number": 2,
+    "description": "这是一个巨大的银矿，拥有丰富的银矿藏量。",
+    "status": "private",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 51
+  },
+  {
+    "id": 3,
+    "owner": 102,
+    "path": "/path/to/mine3",
+    "name": "钻矿山",
+    "number": 3,
+    "description": "这座矿山被认为是世界上最大的钻石矿床之一。",
+    "status": "deleted",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 52
+  },
+  {
+    "id": 4,
+    "owner": 103,
+    "path": "/path/to/mine4",
+    "name": "铜矿山",
+    "number": 4,
+    "description": "这座矿山富含大量的铜矿，是铜加工业的主要供应源。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 53
+  },
+  {
+    "id": 5,
+    "owner": 104,
+    "path": "/path/to/mine5",
+    "name": "煤矿山",
+    "number": 5,
+    "description": "这是一座历史悠久的煤矿，曾经支撑过周边地区的工业发展。",
+    "status": "private",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 54
+  },
+  {
+    "id": 6,
+    "owner": 105,
+    "path": "/path/to/mine6",
+    "name": "石油矿山",
+    "number": 6,
+    "description": "这座矿山是一处重要的石油储备地，拥有丰富的石油资源。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 55
+  },
+  {
+    "id": 7,
+    "owner": 106,
+    "path": "/path/to/mine7",
+    "name": "黄金矿山",
+    "number": 7,
+    "description": "这座矿山被誉为黄金之王，发现过大量珍贵的金矿石。",
+    "status": "deleted",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 56
+  },
+  {
+    "id": 8,
+    "owner": 107,
+    "path": "/path/to/mine8",
+    "name": "铁矿山",
+    "number": 8,
+    "description": "这是一处规模庞大的铁矿山，铁矿资源丰富。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 57
+  },
+  {
+    "id": 9,
+    "owner": 108,
+    "path": "/path/to/mine9",
+    "name": "铂金矿山",
+    "number": 9,
+    "description": "这座矿山是世界上最大的铂金生产基地之一。",
+    "status": "private",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 58
+  },
+  {
+    "id": 10,
+    "owner": 109,
+    "path": "/path/to/mine10",
+    "name": "钛矿山",
+    "number": 10,
+    "description": "这座矿山是钛金属的主要产地之一，拥有丰富的钛矿资源。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 59
+  },
+  {
+    "id": 11,
+    "owner": 110,
+    "path": "/path/to/mine11",
+    "name": "镍矿山",
+    "number": 11,
+    "description": "这座矿山是镍的主要生产地之一，被誉为“镍之乡”。",
+    "status": "deleted",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 60
+  },
+  {
+    "id": 12,
+    "owner": 111,
+    "path": "/path/to/mine12",
+    "name": "磷矿山",
+    "number": 12,
+    "description": "这座矿山是世界上最大的磷矿产区之一，磷资源丰富。",
+    "status": "public",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 61
+  },
+  {
+    "id": 13,
+    "owner": 112,
+    "path": "/path/to/mine13",
+    "name": "钼矿山",
+    "number": 13,
+    "description": "这座矿山是钼的重要产地之一，钼矿资源丰富。",
+    "status": "private",
+    "upload_time": "2024-03-25T09:43:19",
+    "auth_number": 62
+  },
+  {
+  "id": 14,
+  "owner": 113,
+  "path": "/path/to/mine14",
+  "name": "稀土矿山",
+  "number": 14,
+  "description": "这座矿山是稀土元素的主要产地之一，稀土资源丰富。",
+  "status": "public",
+  "upload_time": "2024-03-25T09:43:19",
+  "auth_number": 63
+  },
+  {
+  "id": 15,
+  "owner": 114,
+  "path": "/path/to/mine15",
+  "name": "铀矿山",
+  "number": 15,
+  "description": "这座矿山是铀的重要产地之一，铀矿资源储量丰富。",
+  "status": "deleted",
+  "upload_time": "2024-03-25T09:43:19",
+  "auth_number": 64
+  }
+]

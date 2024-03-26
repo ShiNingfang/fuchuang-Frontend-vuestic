@@ -26,11 +26,53 @@ export default {
       },
     },
     {
+      name: 'attack',
+      displayName: 'menu.attack',
+      meta: {
+        icon: 'group',
+      },
+    },
+    {
       name: 'projects',
       displayName: 'menu.projects',
       meta: {
         icon: 'folder_shared',
       },
+      children: [
+        {
+          name: 'mine-project',
+          displayName: 'menu.mine-project',
+        },
+        {
+          name: 'task',
+          displayName: 'menu.task',
+        },
+        {
+          name: 'other-project',
+          displayName: 'menu.other-project',
+        },
+      ],
+    },
+    {
+      name: 'data',
+      displayName: 'menu.data',
+      meta: {
+        icon: 'folder_shared',
+      },
+      children: [
+        {
+          name: 'mine-data',
+          displayName: 'menu.mine-data',
+        },
+        {
+          name: 'other-data',
+          displayName: 'menu.other-data',
+        },
+        {
+          name: 'auth-data',
+          displayName: 'menu.auth-data',
+        },
+      ],
     },
     {
       name: 'payments',

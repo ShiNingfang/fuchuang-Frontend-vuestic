@@ -1,24 +1,17 @@
 <script setup lang="ts">
 import { defineVaDataTableColumns, useModal } from 'vuestic-ui'
-import { User, UserRole } from '../types'
-import UserAvatar from './UserAvatar.vue'
+import { AuthData, AuthStatus } from '../types'
 import { PropType, computed, toRef } from 'vue'
-import { Pagination, Sorting } from '../../../data/pages/users'
+import { Pagination, Sorting } from '../../../data/pages/authdata'
 import { useVModel } from '@vueuse/core'
-import { Project } from '../../projects/types'
-
-const columns = defineVaDataTableColumns([
-  { label: 'Full Name', key: 'fullname', sortable: true },
-  { label: 'Email', key: 'email', sortable: true },
-  { label: 'Username', key: 'username', sortable: true },
-  { label: 'Role', key: 'role', sortable: true },
-  { label: 'Projects', key: 'projects', sortable: true },
-  { label: ' ', key: 'actions', align: 'right' },
-])
-
+import { watch } from 'vue'
 const props = defineProps({
-  users: {
-    type: Array as PropType<User[]>,
+  dataType: {
+    type: String as PropType<AuthStatus>,
+    required: true,
+  },
+  data: {
+    type: Array as PropType<AuthData[]>,
     required: true,
   },
   loading: { type: Boolean, default: false },
@@ -26,58 +19,78 @@ const props = defineProps({
   sortBy: { type: String as PropType<Sorting['sortBy']>, required: true },
   sortingOrder: { type: String as PropType<Sorting['sortingOrder']>, required: true },
 })
-
+const statusText: Record<AuthStatus, string> = {
+  '': '',
+  no: '已拒绝',
+  agree: '已同意',
+  waiting: '待审批',
+}
+const statusColors: Record<AuthStatus, string> = {
+  '': '',
+  no: 'danger',
+  agree: 'green',
+  waiting: 'warning',
+}
 const emit = defineEmits<{
-  (event: 'edit-user', user: User): void
-  (event: 'delete-user', user: User): void
+  (event: 'agree-data', data: AuthData): void
+  (event: 'reject-data', data: AuthData): void
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
 }>()
 
-const users = toRef(props, 'users')
+const dataType = toRef(props, 'dataType')
+const data = toRef(props, 'data')
 const sortByVModel = useVModel(props, 'sortBy', emit)
 const sortingOrderVModel = useVModel(props, 'sortingOrder', emit)
+console.log(dataType)
 
-const roleColors: Record<UserRole, string> = {
-  admin: 'danger',
-  user: 'background-element',
-  owner: 'warning',
-}
+watch(
+  () => props.dataType,
+  (newVal, oldVal) => {
+    console.log(newVal, oldVal)
+  },
+)
+const columnsArray = computed(() => {
+  if (dataType.value === 'agree' || dataType.value === '') {
+    return [
+      { label: '样本名称', key: 'name', sortable: true },
+      { label: '申请者', key: 'getter', sortable: true },
+      { label: '图片数量', key: 'number', sortable: true },
+      { label: '描述', key: 'description', sortable: false },
+      { label: '用途', key: 'usage', sortable: true },
+      { label: '截止时间', key: 'deadline', sortable: true },
+      { label: ' ', key: 'actions', align: 'right' },
+    ]
+  } else {
+    return [
+      { label: '样本名称', key: 'name', sortable: true },
+      { label: '申请者', key: 'getter', sortable: true },
+      { label: '图片数量', key: 'number', sortable: true },
+      { label: '描述', key: 'description', sortable: false },
+      { label: ' ', key: 'actions', align: 'right' },
+    ]
+  }
+})
+console.log(columnsArray)
+const columns = defineVaDataTableColumns(columnsArray)
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
 
 const { confirm } = useModal()
 
-const onUserDelete = async (user: User) => {
+const onUserDelete = async (data: AuthData) => {
   const agreed = await confirm({
-    title: 'Delete user',
-    message: `Are you sure you want to delete ${user.fullname}?`,
-    okText: 'Delete',
-    cancelText: 'Cancel',
+    title: '删除样本',
+    message: `你确定要删除“${data.name}”吗?`,
+    okText: '删除',
+    cancelText: '取消',
     size: 'small',
     maxWidth: '380px',
   })
 
   if (agreed) {
-    emit('delete-user', user)
+    emit('reject-data', data)
   }
-}
-
-const formatProjectNames = (projects: Project[]) => {
-  if (projects.length === 0) return 'No projects'
-  if (projects.length <= 2) {
-    return projects.map((project) => project.project_name).join(', ')
-  }
-
-  return (
-    projects
-      .slice(0, 2)
-      .map((project) => project.project_name)
-      .join(', ') +
-    ' + ' +
-    (projects.length - 2) +
-    ' more'
-  )
 }
 </script>
 
@@ -86,54 +99,32 @@ const formatProjectNames = (projects: Project[]) => {
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
     :columns="columns"
-    :items="users"
+    :items="data"
     :loading="$props.loading"
   >
-    <template #cell(fullname)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        <UserAvatar :user="rowData as User" size="small" />
-        {{ rowData.fullname }}
-      </div>
-    </template>
-
-    <template #cell(username)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.username }}
-      </div>
-    </template>
-
-    <template #cell(email)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.email }}
-      </div>
-    </template>
-
-    <template #cell(role)="{ rowData }">
-      <VaBadge :text="rowData.role" :color="roleColors[rowData.role as UserRole]" />
-    </template>
-
-    <template #cell(projects)="{ rowData }">
-      <div class="ellipsis max-w-[300px] lg:max-w-[450px]">
-        {{ formatProjectNames(rowData.projects) }}
-      </div>
-    </template>
-
     <template #cell(actions)="{ rowData }">
+      <VaBadge
+        v-if="rowData.status !== 'waiting'"
+        :text="statusText[rowData.status]"
+        :color="statusColors[rowData.status as AuthStatus]"
+      />
       <div class="flex justify-end gap-2">
         <VaButton
+          v-if="rowData.status === 'waiting'"
           preset="primary"
           size="small"
           icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as User)"
+          aria-label="同意申请"
+          @click="$emit('agree-data', rowData as AuthData)"
         />
         <VaButton
+          v-if="rowData.status === 'waiting'"
           preset="primary"
           size="small"
           icon="mso-delete"
           color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as User)"
+          aria-label="拒绝申请"
+          @click="onUserDelete(rowData as AuthData)"
         />
       </div>
     </template>

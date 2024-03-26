@@ -1,6 +1,5 @@
 import { plantRenderPara } from '../gogocodeTransfer'
 import { $children } from '../gogocodeTransfer'
-/* eslint-disable import/no-cycle */
 import Tooltip from 'tooltip.js'
 import * as Vue from 'vue'
 import Node from './Node.vue'

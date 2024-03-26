@@ -1,24 +1,21 @@
 <script setup lang="ts">
 import { defineVaDataTableColumns, useModal } from 'vuestic-ui'
-import { User, UserRole } from '../types'
-import UserAvatar from './UserAvatar.vue'
+import { OtherData } from '../types'
 import { PropType, computed, toRef } from 'vue'
-import { Pagination, Sorting } from '../../../data/pages/users'
+import { Pagination, Sorting } from '../../../data/pages/minedata'
 import { useVModel } from '@vueuse/core'
-import { Project } from '../../projects/types'
 
 const columns = defineVaDataTableColumns([
-  { label: 'Full Name', key: 'fullname', sortable: true },
-  { label: 'Email', key: 'email', sortable: true },
-  { label: 'Username', key: 'username', sortable: true },
-  { label: 'Role', key: 'role', sortable: true },
-  { label: 'Projects', key: 'projects', sortable: true },
+  { label: '样本名称', key: 'name', sortable: true },
+  { label: '来源', key: 'owner', sortable: false },
+  { label: '图片数量', key: 'number', sortable: true },
+  { label: '描述', key: 'description', sortable: false },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
 const props = defineProps({
-  users: {
-    type: Array as PropType<User[]>,
+  data: {
+    type: Array as PropType<OtherData[]>,
     required: true,
   },
   loading: { type: Boolean, default: false },
@@ -28,56 +25,38 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (event: 'edit-user', user: User): void
-  (event: 'delete-user', user: User): void
+  (event: 'apply-data', data: OtherData): void
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
 }>()
 
-const users = toRef(props, 'users')
+const data = toRef(props, 'data')
 const sortByVModel = useVModel(props, 'sortBy', emit)
 const sortingOrderVModel = useVModel(props, 'sortingOrder', emit)
 
-const roleColors: Record<UserRole, string> = {
-  admin: 'danger',
-  user: 'background-element',
-  owner: 'warning',
-}
+// const roleColors: Record<OtherStatus, string> = {
+//   admin: 'danger',
+//   data: 'background-element',
+//   owner: 'warning',
+// }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
 
 const { confirm } = useModal()
 
-const onUserDelete = async (user: User) => {
+const onApplyData = async (data: OtherData) => {
   const agreed = await confirm({
-    title: 'Delete user',
-    message: `Are you sure you want to delete ${user.fullname}?`,
-    okText: 'Delete',
-    cancelText: 'Cancel',
+    title: '发送申请',
+    message: `你确定要申请样本“${data.name}”的使用权吗?`,
+    okText: '申请',
+    cancelText: '取消',
     size: 'small',
     maxWidth: '380px',
   })
 
   if (agreed) {
-    emit('delete-user', user)
+    emit('apply-data', data)
   }
-}
-
-const formatProjectNames = (projects: Project[]) => {
-  if (projects.length === 0) return 'No projects'
-  if (projects.length <= 2) {
-    return projects.map((project) => project.project_name).join(', ')
-  }
-
-  return (
-    projects
-      .slice(0, 2)
-      .map((project) => project.project_name)
-      .join(', ') +
-    ' + ' +
-    (projects.length - 2) +
-    ' more'
-  )
 }
 </script>
 
@@ -86,54 +65,17 @@ const formatProjectNames = (projects: Project[]) => {
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
     :columns="columns"
-    :items="users"
+    :items="data"
     :loading="$props.loading"
   >
-    <template #cell(fullname)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        <UserAvatar :user="rowData as User" size="small" />
-        {{ rowData.fullname }}
-      </div>
-    </template>
-
-    <template #cell(username)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.username }}
-      </div>
-    </template>
-
-    <template #cell(email)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.email }}
-      </div>
-    </template>
-
-    <template #cell(role)="{ rowData }">
-      <VaBadge :text="rowData.role" :color="roleColors[rowData.role as UserRole]" />
-    </template>
-
-    <template #cell(projects)="{ rowData }">
-      <div class="ellipsis max-w-[300px] lg:max-w-[450px]">
-        {{ formatProjectNames(rowData.projects) }}
-      </div>
-    </template>
-
     <template #cell(actions)="{ rowData }">
       <div class="flex justify-end gap-2">
         <VaButton
           preset="primary"
           size="small"
           icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as User)"
-        />
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-delete"
-          color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as User)"
+          aria-label="申请使用"
+          @click="onApplyData(rowData as OtherData)"
         />
       </div>
     </template>

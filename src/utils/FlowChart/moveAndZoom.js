@@ -1,5 +1,4 @@
 import instance from './instance'
-
 import panzoom from 'panzoom'
 
 // 初始化panzoom插件
