@@ -246,36 +246,9 @@ for (let i = 0; i < 5; i++) {
 
 const minedata = [
   {
-    url: '/data_mine/getItems',
-    type: 'get',
-    response: (config) => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-      const mockList = List.filter((item) => {
-        // if (importance && item.importance !== +importance) return false
-        // if (type && item.type !== type) return false
-        // if (title && item.title.indexOf(title) < 0) return false
-        return true
-      })
-
-      //   if (sort === '-id') {
-      //     mockList = mockList.reverse()
-      //   }
-
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList,
-        },
-      }
-    },
-  },
-  {
     url: '/data_mine/create',
     type: 'post',
-    response: (_) => {
+    response: () => {
       return {
         code: 20000,
         data: 'success',
@@ -293,22 +266,6 @@ const minedata = [
     },
   },
   {
-    url: '/data_other/getItems',
-    type: 'get',
-    response: (config) => {
-      const { page = 1, limit = 20 } = config.query
-      const pageList = List.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: List.length,
-          items: pageList,
-        },
-      }
-    },
-  },
-  {
     url: '/data_other/apply',
     type: 'post',
     response: (_) => {
@@ -319,138 +276,32 @@ const minedata = [
     },
   },
   {
-    url: '/data_author/getItems',
-    type: 'get',
-    response: (config) => {
-      const { page = 1, limit = 20 } = config.query
-
-      const pageList = List.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: List.length,
-          items: pageList,
-        },
-      }
-    },
-  },
-  {
     url: '/data_author/handle',
     type: 'post',
-    response: (_) => {
+    response: () => {
       return {
         code: 20000,
         data: 'success',
-      }
-    },
-  },
-  {
-    url: '/project_mine/getItems',
-    type: 'get',
-    response: (config) => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-
-      const mockList = List2.filter((item) => {
-        // if (importance && item.importance !== +importance) return false
-        // if (type && item.type !== type) return false
-        // if (title && item.title.indexOf(title) < 0) return false
-        return true
-      })
-
-      //   if (sort === '-id') {
-      //     mockList = mockList.reverse()
-      //   }
-
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList,
-        },
-      }
-    },
-  },
-  {
-    url: '/project_mine/getOptions',
-    type: 'get',
-    response: (config) => {
-      return {
-        code: 20000,
-        data: {
-          items: {
-            number: ['snf', 'zzr', 'zzy', 'oyrl', 'wyx'],
-            cooperator: ['snf', 'zzr', 'zzy', 'oyrl', 'wyx'],
-          },
-        },
       }
     },
   },
   {
     url: '/project_mine/create',
     type: 'post',
-    response: (_) => {
+    response: () => {
       return {
         code: 20000,
         data: 'success',
-      }
-    },
-  },
-  {
-    url: '/taskboard/getsimples',
-    type: 'get',
-    response: (config) => {
-      return {
-        code: 20000,
-        data: List,
-      }
-    },
-  },
-  {
-    url: '/project_mine/task/getItems',
-    type: 'get',
-    response: (config) => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-
-      const mockList = List3
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList,
-        },
       }
     },
   },
   {
     url: '/project_mine/task/create',
     type: 'post',
-    response: (_) => {
+    response: () => {
       return {
         code: 20000,
         data: 'success',
-      }
-    },
-  },
-  {
-    url: '/project_other/getItems',
-    type: 'get',
-    response: (config) => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-
-      const mockList = List2
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
-      return {
-        code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList,
-        },
       }
     },
   },

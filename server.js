@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('train', (data) => {
-    console.log(`Train command received: ${data.choice}`)
+    console.log(data)
     // 模拟发送日志输出
     let counter = 0
     const trainInterval = setInterval(() => {

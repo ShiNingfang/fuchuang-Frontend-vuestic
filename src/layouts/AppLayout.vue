@@ -87,7 +87,7 @@ const onCloseSidebarButtonClick = () => {
 // Prevent icon jump on animation
 .va-sidebar {
   width: unset !important;
-  min-width: 60px !important;
+  min-width: unset !important;
 }
 </style>
 ../stores/modules/global-store

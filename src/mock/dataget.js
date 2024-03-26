@@ -251,16 +251,8 @@ const minedata = [
     response: (config) => {
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
       const mockList = List.filter((item) => {
-        // if (importance && item.importance !== +importance) return false
-        // if (type && item.type !== type) return false
-        // if (title && item.title.indexOf(title) < 0) return false
         return true
       })
-
-      //   if (sort === '-id') {
-      //     mockList = mockList.reverse()
-      //   }
-
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
@@ -269,26 +261,6 @@ const minedata = [
           total: mockList.length,
           items: pageList,
         },
-      }
-    },
-  },
-  {
-    url: '/data_mine/create',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
-      }
-    },
-  },
-  {
-    url: '/data_mine/delete',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
       }
     },
   },
@@ -309,16 +281,6 @@ const minedata = [
     },
   },
   {
-    url: '/data_other/apply',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
-      }
-    },
-  },
-  {
     url: '/data_author/getItems',
     type: 'get',
     response: (config) => {
@@ -332,16 +294,6 @@ const minedata = [
           total: List.length,
           items: pageList,
         },
-      }
-    },
-  },
-  {
-    url: '/data_author/handle',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
       }
     },
   },
@@ -389,16 +341,6 @@ const minedata = [
     },
   },
   {
-    url: '/project_mine/create',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
-      }
-    },
-  },
-  {
     url: '/taskboard/getsimples',
     type: 'get',
     response: (config) => {
@@ -423,16 +365,6 @@ const minedata = [
           total: mockList.length,
           items: pageList,
         },
-      }
-    },
-  },
-  {
-    url: '/project_mine/task/create',
-    type: 'post',
-    response: (_) => {
-      return {
-        code: 20000,
-        data: 'success',
       }
     },
   },

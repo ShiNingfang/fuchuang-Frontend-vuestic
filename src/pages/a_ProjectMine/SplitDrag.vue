@@ -18,7 +18,7 @@
                       <div>
                         <ElButton
                           style="margin-top: 10px; margin-left: 10px"
-                          icon="el-icon-video-play"
+                          icon="VideoPlay"
                           :disabled="isExecDisable"
                           size="small"
                           @click="execModel"
@@ -26,11 +26,10 @@
                         >
                         <ElButton
                           style="margin-top: 10px; margin-right: 10px; float: right"
-                          icon="el-icon-video-play"
+                          icon="VideoPlay"
                           size="small"
                           @click="saveData"
                           >保存</ElButton
-                        >
                         >
                       </div>
                       <div id="mainContainer" />
@@ -627,12 +626,10 @@ export default {
       console.log(node.data.result)
       // 转换结果为表格数据并根据模型类型存储
       this.transformResultsToTableData(nodeType, node.data.result)
-
       // 渲染结果
       this.$nextTick(() => {
         // 渲染图表
         this.initRocChart('RocChart-' + nodeType, node.data.result)
-
         // 添加大小变化的监听器
         const chartContainer = document.getElementById('RocChart-' + nodeType)
         if (chartContainer) {
@@ -669,7 +666,7 @@ export default {
       this.isExecDisable = true
       this.isShowNode = true
       this.isShowTab = true
-      FlowChart.runModel(loggerStore).then(() => {
+      FlowChart.runModel(this.loggerStore).then(() => {
         this.isExecDisable = false
       })
     },
@@ -684,53 +681,6 @@ export default {
       taskboard_getSimples().then((response) => {
         this.tableData2 = response.data
       })
-    },
-    traverseGraph(data, startNodeId) {
-      const visitedNodes = new Set() // 记录已访问的节点，避免重复访问
-      const paths = [] // 存储遍历路径
-
-      // 根据源端点ID找到所有出边
-      function findEdgesBySourceId(sourceId) {
-        return data.edges.filter((edge) => edge.split('&&')[0] === sourceId)
-      }
-
-      // 根据节点ID找到所有源端点
-      function findSourceEndpointsByNodeId(nodeId) {
-        const node = data.nodes.find((node) => node.id === nodeId)
-        return node ? node.points.sources : []
-      }
-
-      // 遍历路径
-      function traverse(sourceId, path = []) {
-        // 记录当前路径
-        if (!visitedNodes.has(sourceId)) {
-          visitedNodes.add(sourceId)
-          path.push(sourceId)
-        }
-
-        // 找到源端点对应的所有出边
-        const sourceEndpoints = findSourceEndpointsByNodeId(sourceId)
-        sourceEndpoints.forEach((sourceEndpoint) => {
-          const edges = findEdgesBySourceId(sourceEndpoint)
-          edges.forEach((edge) => {
-            const targetId = edge.split('&&')[1]
-            // 递归遍历目标端点对应的节点
-            traverse(targetId, path.slice()) // 使用slice()来传递路径副本
-          })
-        })
-
-        // 如果当前节点没有出边，则认为是路径的终点
-        if (sourceEndpoints.length === 0 || findEdgesBySourceId(sourceEndpoints[0]).length === 0) {
-          paths.push(path)
-        }
-      }
-
-      // 从起点开始遍历
-      traverse(startNodeId)
-
-      // 输出遍历到的路径
-      console.log('Traversed paths:', paths)
-      return paths
     },
     handleChange(val) {
       console.log(val)
@@ -757,7 +707,7 @@ export default {
         },
         grid: {
           left: '3%',
-          right: '4%',
+          right: '3%',
           bottom: '3%',
           containLabel: true,
         },
@@ -769,7 +719,8 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: data.acc.map((_, i) => `Epoch ${i + 1}`), // 假设每个epoch对应一个数据点
+          // data: data.acc.map((_, i) => `Epoch ${i + 1}`), // 假设每个epoch对应一个数据点
+          data: ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5', 'Epoch 6', 'Epoch 7', 'Epoch 8'],
         },
         yAxis: {
           type: 'value',
