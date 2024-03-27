@@ -11,9 +11,9 @@ import stores from './stores'
 import router from './router'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import App from './App.vue'
-import { mockXHR } from './mock'
+// import { mockXHR } from './mock'
 
-mockXHR()
+// mockXHR()
 
 const app = createApp(App)
 
