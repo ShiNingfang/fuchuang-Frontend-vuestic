@@ -41,26 +41,26 @@ const avatarColor = (userName: string) => {
       <VaCardContent class="flex flex-col h-full">
         <div class="text-[var(--va-secondary)]">{{ project.creation_date }}</div>
         <div class="flex flex-col items-center gap-4 grow">
-          <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
+          <h4 class="self-stretch overflow-hidden text-center va-h4 line-clamp-2 text-ellipsis">
             {{ project.project_name }}
           </h4>
           <p>
             <span class="text-[var(--va-secondary)]">Owner: </span>
-            <span>{{ project.project_owner.fullname }}</span>
+            <span>{{ project.project_owner.name }}</span>
           </p>
           <VaAvatarGroup
             class="my-4"
             :options="
               project.team.map((user) => ({
-                label: user.fullname,
-                src: user.avatar,
-                fallbackText: user.fullname[0],
-                color: avatarColor(user.fullname),
+                label: user.name,
+                src: user.photo,
+                fallbackText: user.name[0],
+                color: avatarColor(user.name),
               }))
             "
             :max="5"
           />
-          <ProjectStatusBadge :status="project.status" />
+          <!-- <ProjectStatusBadge :status="project.status" /> -->
         </div>
         <VaDivider class="my-6" />
         <div class="flex justify-between">

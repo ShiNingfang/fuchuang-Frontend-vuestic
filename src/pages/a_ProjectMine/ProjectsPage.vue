@@ -10,7 +10,7 @@ import { useModal, useToast } from 'vuestic-ui'
 
 const doShowAsCards = useLocalStorage('projects-view', true)
 
-const { projects, update, add, isLoading, remove, pagination, sorting } = useProjects()
+const { projects, add, isLoading, pagination, sorting } = useProjects() // update, remove
 // 项目列表，更新，添加，是否转圈，删除，分页指示，排序数据（依据，list）
 
 const projectToEdit = ref<Project | null>(null)
@@ -30,19 +30,24 @@ const { init: notify } = useToast()
 
 const onProjectSaved = async (project: Project) => {
   doShowProjectFormModal.value = false
-  if ('id' in project) {
-    await update(project as Project)
-    notify({
-      message: 'Project updated',
-      color: 'success',
-    })
-  } else {
-    await add(project as Project)
-    notify({
-      message: 'Project created',
-      color: 'success',
-    })
-  }
+  await add(project as Project)
+  notify({
+    message: 'Project created',
+    color: 'success',
+  })
+  // if ('id' in project) {
+  //   await update(project as Project)
+  //   notify({
+  //     message: 'Project updated',
+  //     color: 'success',
+  //   })
+  // } else {
+  //   await add(project as Project)
+  //   notify({
+  //     message: 'Project created',
+  //     color: 'success',
+  //   })
+  // }
 }
 
 const { confirm } = useModal()
@@ -60,7 +65,7 @@ const onProjectDeleted = async (project: Project) => {
     return
   }
 
-  await remove(project)
+  // await remove(project)
   notify({
     message: 'Project deleted',
     color: 'success',

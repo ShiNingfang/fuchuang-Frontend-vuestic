@@ -4,6 +4,9 @@ import { useForm } from 'vuestic-ui'
 import { MineData } from '../types'
 // import UserAvatar from './UserAvatar.vue'
 import { validators } from '../../../services/utils'
+import { useUserStore } from '../../../stores/user-store'
+
+const userStore = useUserStore()
 
 const props = defineProps({
   data: {
@@ -16,10 +19,10 @@ const props = defineProps({
   },
 })
 
-const file = ref([])
+// const file = ref([])
 const defaultNewData: MineData = {
   id: -1,
-  owner: -1,
+  owner: userStore.id,
   path: '',
 
   name: '',
@@ -97,14 +100,26 @@ const onSave = () => {
           v-model="newData.number"
           label="图片数量"
           class="w-full sm:w-1/2"
-          :rules="[validators.required, validateInteger]"
+          :rules="[validateInteger]"
           name="number"
           manual-input
           :min="0"
         />
       </div>
-      <VaInput v-model="newData.path" placeholder="点击输入框选择样本地址" label="上传样本" type="file" />
-      <VaTextarea v-model="newData.description" label="描述" class="w-full" name="description" />
+      <VaInput
+        v-model="newData.path"
+        placeholder="由于浏览器保护措施，我们无法直接获取你的文件地址，请自行输入"
+        :rules="[validators.required]"
+        label="上传样本"
+        type="text"
+      />
+      <VaTextarea
+        v-model="newData.description"
+        :rules="[validators.required]"
+        label="描述"
+        class="w-full"
+        name="description"
+      />
       <div class="flex flex-col-reverse items-stretch justify-end w-full gap-2 sm:flex-row sm:items-center">
         <VaButton preset="secondary" color="secondary" @click="$emit('close')">取消</VaButton>
         <VaButton :disabled="!isValid" @click="onSave">{{ saveButtonLabel }}</VaButton>

@@ -1,15 +1,21 @@
-import { User } from '../users/types'
+// import { User } from '../users/types'
+
+export type pjtUser = {
+  id: number
+  name: string
+  photo: string // 网址，或者是空
+}
 
 export type Project = {
   id: number
   project_name: string
+  project_owner: pjtUser
+  team: pjtUser[]
   type: string
   description: string
-  team: Omit<User, 'projects'>[]
-  creation_date: string
+  creation_date: Date
 
-  status: 'important' | 'completed' | 'archived' | 'in progress'
-  project_owner: Omit<User, 'projects'>
+  status?: 'important' | 'completed' | 'archived' | 'in progress'
 }
 
 export type EmptyProject = Omit<Project, 'id' | 'project_name' | 'type' | 'team' | 'description' | 'creation_date'> & {

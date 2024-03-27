@@ -27,15 +27,15 @@ const { init: notify } = useToast()
 
 const onUserSaved = async (data: MineData) => {
   if (dataToEdit.value) {
-    await usersApi.update(data)
+    await usersApi.changeState(data)
     notify({
-      message: `${data.name} has been updated`,
+      message: `${data.name} 已经更新`,
       color: 'success',
     })
   } else {
     usersApi.add(data)
     notify({
-      message: `${data.name} has been created`,
+      message: `${data.name} 已经创建`,
       color: 'success',
     })
   }
@@ -44,7 +44,7 @@ const onUserSaved = async (data: MineData) => {
 const onUserDelete = async (data: MineData) => {
   await usersApi.remove(data)
   notify({
-    message: `${data.name} has been deleted`,
+    message: `${data.name} 已经删除`,
     color: 'success',
   })
 }
@@ -57,7 +57,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
   if (editFormRef.value.isFormHasUnsavedChanges) {
     const agreed = await confirm({
       maxWidth: '380px',
-      message: 'Form has unsaved changes. Are you sure you want to close it?',
+      message: '有未保存的更改，确认离开？',
       size: 'small',
     })
     if (agreed) {

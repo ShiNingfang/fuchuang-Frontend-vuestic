@@ -2,7 +2,7 @@
 import { PropType, computed } from 'vue'
 import { defineVaDataTableColumns } from 'vuestic-ui'
 import { Project } from '../types'
-import UserAvatar from '../../users/widgets/UserAvatar.vue'
+import UserPhoto from './UserPhoto.vue'
 // import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
 import { Pagination, Sorting } from '../../../data/pages/projects'
 import { useVModel } from '@vueuse/core'
@@ -74,8 +74,8 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
       </template> -->
       <template #cell(project_owner)="{ rowData }">
         <div class="flex items-center gap-2 ellipsis max-w-[230px]">
-          <UserAvatar :user="rowData.project_owner" size="small" />
-          {{ rowData.project_owner.fullname }}
+          <UserPhoto :user="rowData.project_owner" size="small" />
+          {{ rowData.project_owner.name }}
         </div>
       </template>
       <template #cell(team)="{ rowData: project }">
@@ -83,10 +83,10 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
           size="small"
           :options="
             (project as Project).team.map((user) => ({
-              label: user.fullname,
-              src: user.avatar,
-              fallbackText: user.fullname[0],
-              color: avatarColor(user.fullname),
+              label: user.name,
+              src: user.photo,
+              fallbackText: user.name[0],
+              color: avatarColor(user.name),
             }))
           "
           :max="5"

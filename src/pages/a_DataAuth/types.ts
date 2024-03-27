@@ -6,7 +6,11 @@ export type AuthData = {
   id: number
 
   name: string
-  getter: number
+  getter: {
+    id: number
+    name: string
+    photo: string // 网址，或者是空
+  }
   number: number
   description: string
 
@@ -14,4 +18,5 @@ export type AuthData = {
   deadline: Date
 
   status: AuthStatus
+  // action?: boolean
 }

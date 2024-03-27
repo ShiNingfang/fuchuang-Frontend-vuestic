@@ -10,9 +10,9 @@ const { otherData, isLoading, filters, sorting, pagination, ...usersApi } = useO
 const { init: notify } = useToast()
 
 const onUserApply = async (data: OtherData) => {
-  await usersApi.remove(data)
+  await usersApi.apply(data)
   notify({
-    message: `${data.name} has been deleted`,
+    message: `已经发送样本“${data.name}”的申请`,
     color: 'success',
   })
 }

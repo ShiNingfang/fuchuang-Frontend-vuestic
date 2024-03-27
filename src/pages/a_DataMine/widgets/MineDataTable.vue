@@ -16,6 +16,7 @@ const columns = defineVaDataTableColumns([
   { label: '样本名称', key: 'name', sortable: true },
   { label: '图片数量', key: 'number', sortable: true },
   { label: '描述', key: 'description', sortable: false },
+  { label: '地址', key: 'path', sortable: false },
   { label: '授权数', key: 'auth_number', sortable: true },
   { label: '上传时间', key: 'upload_time', sortable: true },
   { label: ' ', key: 'actions', align: 'right' },

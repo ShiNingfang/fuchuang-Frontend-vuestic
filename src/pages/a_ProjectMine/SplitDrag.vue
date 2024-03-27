@@ -426,21 +426,21 @@
                                 >
                                   <ElTableColumn type="selection" width="55" align="center" />
                                   <ElTableColumn
-                                    prop="simple_name"
+                                    prop="data.name"
                                     label="样本名称"
                                     align="center"
                                     width="100px"
                                     show-overflow-tooltip
                                   />
                                   <ElTableColumn
-                                    prop="data_count"
+                                    prop="data.number"
                                     label="样本记录数"
                                     align="center"
                                     width="100px"
                                     show-overflow-tooltip
                                   />
                                   <ElTableColumn
-                                    prop="description"
+                                    prop="data.description"
                                     label="描述"
                                     min-width="100px"
                                     show-overflow-tooltip
@@ -522,8 +522,7 @@ import * as Vue from 'vue'
 import ComponentTree from '@/components/ComponentTree.vue'
 // import splitPane from 'vue-splitpane'
 import VueSplitter from '@rmp135/vue-splitter'
-import { getFlowChartData } from '@/api/task'
-import { taskboard_getSimples } from '@/api/minedata'
+import { getTaskModel, getTaskSource, saveTaskModel } from '@/api/task'
 import FlowChart from '@/utils/FlowChart/index'
 import PluginFlowExec from '@/utils/FlowChart/pluginFlowExec'
 
@@ -563,17 +562,17 @@ export default {
       completedModelList: [],
       allTableData: {}, // 用于存储所有模型类型的表格数据
 
-      list: null,
-      total: 0,
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 2,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '-lastTime',
-      },
+      // list: null,
+      // total: 0,
+      // listLoading: true,
+      // listQuery: {
+      //   page: 1,
+      //   limit: 2,
+      //   importance: undefined,
+      //   title: undefined,
+      //   type: undefined,
+      //   sort: '-lastTime',
+      // },
       RocChart: null,
     }
   },
@@ -603,7 +602,7 @@ export default {
   },
   created() {
     this.getSimple()
-    this.getList()
+    // this.getList()
     if (this.$route.query.cooperators) {
       const cooperatorsArray = this.$route.query.cooperators.split(',')
       this.cooperateList = ['自有数据', ...cooperatorsArray]
@@ -650,9 +649,8 @@ export default {
         }
       })
     })
-
-    getFlowChartData().then((data) => {
-      FlowChart.loadData(data.data)
+    getTaskModel().then((data) => {
+      FlowChart.loadData(data)
     })
   },
   methods: {
@@ -670,31 +668,41 @@ export default {
         this.isExecDisable = false
       })
     },
-    saveData() {
+    async saveData() {
       const modelData = FlowChart.getModelData()
       // console.log(modelData)
       // console.log(FlowChart.getCompletedModel())
       // console.log(modelData)
-      this.$message.success('模型保存成功')
+      const res = await saveTaskModel({
+        id: 1,
+        data: modelData,
+      })
+      console.log(res)
+      if (res.code === 200) {
+        this.$message.success('模型保存成功')
+      } else {
+        this.$message.success('模型保存失败')
+      }
     },
     getSimple() {
-      taskboard_getSimples().then((response) => {
+      getTaskSource().then((response) => {
+        // console.log(response.data)
         this.tableData2 = response.data
       })
     },
     handleChange(val) {
       console.log(val)
     },
-    getList() {
-      this.listLoading = true
-      fetchList(this.listQuery).then((response) => {
-        this.list = response.data.items
-        this.total = response.data.total
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
-    },
+    // getList() {
+    //   // this.listLoading = true
+    //   fetchList(this.listQuery).then((response) => {
+    //     // this.list = response.data.items
+    //     // this.total = response.data.total
+    //     // setTimeout(() => {
+    //     //   this.listLoading = false
+    //     // }, 1.5 * 1000)
+    //   })
+    // },
     initRocChart(id, data) {
       const chartDom = document.getElementById(id)
       this.RocChart = echarts.init(chartDom)

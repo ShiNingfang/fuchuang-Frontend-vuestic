@@ -1,313 +1,412 @@
+const taskSource = [
+  {
+    owner: {
+      id: 1,
+      name: '所有者姓名1',
+      photo: '',
+    },
+    data: {
+      id: 1,
+      name: '样本名称1',
+      number: 10,
+      description: '样本描述1',
+      path: '/sample/1',
+    },
+  },
+  {
+    owner: {
+      id: 2,
+      name: '所有者姓名2',
+      photo: '',
+    },
+    data: {
+      id: 2,
+      name: '样本名称2',
+      number: 8,
+      description: '样本描述2',
+      path: '/sample/2',
+    },
+  },
+  {
+    owner: {
+      id: 3,
+      name: '所有者姓名3',
+      photo: '',
+    },
+    data: {
+      id: 3,
+      name: '样本名称3',
+      number: 15,
+      description: '样本描述3',
+      path: '/sample/3',
+    },
+  },
+  {
+    owner: {
+      id: 4,
+      name: '所有者姓名4',
+      photo: '',
+    },
+    data: {
+      id: 4,
+      name: '样本名称4',
+      number: 5,
+      description: '样本描述4',
+      path: '/sample/4',
+    },
+  },
+  {
+    owner: {
+      id: 5,
+      name: '所有者姓名5',
+      photo: '',
+    },
+    data: {
+      id: 5,
+      name: '样本名称5',
+      number: 12,
+      description: '样本描述5',
+      path: '/sample/5',
+    },
+  },
+  {
+    owner: {
+      id: 6,
+      name: '所有者姓名6',
+      photo: '',
+    },
+    data: {
+      id: 6,
+      name: '样本名称6',
+      number: 7,
+      description: '样本描述6',
+      path: '/sample/6',
+    },
+  },
+  {
+    owner: {
+      id: 7,
+      name: '所有者姓名7',
+      photo: '',
+    },
+    data: {
+      id: 7,
+      name: '样本名称7',
+      number: 9,
+      description: '样本描述7',
+      path: '/sample/7',
+    },
+  },
+  {
+    owner: {
+      id: 8,
+      name: '所有者姓名8',
+      photo: '',
+    },
+    data: {
+      id: 8,
+      name: '样本名称8',
+      number: 11,
+      description: '样本描述8',
+      path: '/sample/8',
+    },
+  },
+  {
+    owner: {
+      id: 9,
+      name: '所有者姓名9',
+      photo: '',
+    },
+    data: {
+      id: 9,
+      name: '样本名称9',
+      number: 6,
+      description: '样本描述9',
+      path: '/sample/9',
+    },
+  },
+  {
+    owner: {
+      id: 10,
+      name: '所有者姓名10',
+      photo: '',
+    },
+    data: {
+      id: 10,
+      name: '样本名称10',
+      number: 13,
+      description: '样本描述10',
+      path: '/sample/10',
+    },
+  },
+  {
+    owner: {
+      id: 11,
+      name: '所有者姓名11',
+      photo: '',
+    },
+    data: {
+      id: 11,
+      name: '样本名称11',
+      number: 4,
+      description: '样本描述11',
+      path: '/sample/11',
+    },
+  },
+  {
+    owner: {
+      id: 12,
+      name: '所有者姓名12',
+      photo: '',
+    },
+    data: {
+      id: 12,
+      name: '样本名称12',
+      number: 8,
+      description: '样本描述12',
+      path: '/sample/12',
+    },
+  },
+  {
+    owner: {
+      id: 13,
+      name: '所有者姓名13',
+      photo: '',
+    },
+    data: {
+      id: 13,
+      name: '样本名称13',
+      number: 10,
+      description: '样本描述13',
+      path: '/sample/13',
+    },
+  },
+  {
+    owner: {
+      id: 14,
+      name: '所有者姓名14',
+      photo: '',
+    },
+    data: {
+      id: 14,
+      name: '样本名称14',
+      number: 7,
+      description: '样本描述14',
+      path: '/sample/14',
+    },
+  },
+  {
+    owner: {
+      id: 15,
+      name: '所有者姓名15',
+      photo: '',
+    },
+    data: {
+      id: 15,
+      name: '样本名称15',
+      number: 12,
+      description: '样本描述15',
+      path: '/sample/15',
+    },
+  },
+]
+const attackSource = [
+  {
+    id: 1,
+    name: '样本名称1',
+    number: 10,
+    description: '样本描述1',
+    path: '/sample/1',
+  },
+  {
+    id: 2,
+    name: '样本名称2',
+    number: 8,
+    description: '样本描述2',
+    path: '/sample/2',
+  },
+  {
+    id: 3,
+    name: '样本名称3',
+    number: 15,
+    description: '样本描述3',
+    path: '/sample/3',
+  },
+  {
+    id: 4,
+    name: '样本名称4',
+    number: 5,
+    description: '样本描述4',
+    path: '/sample/4',
+  },
+  {
+    id: 5,
+    name: '样本名称5',
+    number: 12,
+    description: '样本描述5',
+    path: '/sample/5',
+  },
+  {
+    id: 6,
+    name: '样本名称6',
+    number: 7,
+    description: '样本描述6',
+    path: '/sample/6',
+  },
+  {
+    id: 7,
+    name: '样本名称7',
+    number: 9,
+    description: '样本描述7',
+    path: '/sample/7',
+  },
+  {
+    id: 8,
+    name: '样本名称8',
+    number: 11,
+    description: '样本描述8',
+    path: '/sample/8',
+  },
+  {
+    id: 9,
+    name: '样本名称9',
+    number: 6,
+    description: '样本描述9',
+    path: '/sample/9',
+  },
+  {
+    id: 10,
+    name: '样本名称10',
+    number: 13,
+    description: '样本描述10',
+    path: '/sample/10',
+  },
+  {
+    id: 11,
+    name: '样本名称11',
+    number: 4,
+    description: '样本描述11',
+    path: '/sample/11',
+  },
+  {
+    id: 12,
+    name: '样本名称12',
+    number: 8,
+    description: '样本描述12',
+    path: '/sample/12',
+  },
+  {
+    id: 13,
+    name: '样本名称13',
+    number: 10,
+    description: '样本描述13',
+    path: '/sample/13',
+  },
+  {
+    id: 14,
+    name: '样本名称14',
+    number: 7,
+    description: '样本描述14',
+    path: '/sample/14',
+  },
+  {
+    id: 15,
+    name: '样本名称15',
+    number: 12,
+    description: '样本描述15',
+    path: '/sample/15',
+  },
+  {
+    id: 16,
+    name: '样本名称16',
+    number: 9,
+    description: '样本描述16',
+    path: '/sample/16',
+  },
+  {
+    id: 17,
+    name: '样本名称17',
+    number: 11,
+    description: '样本描述17',
+    path: '/sample/17',
+  },
+  {
+    id: 18,
+    name: '样本名称18',
+    number: 6,
+    description: '样本描述18',
+    path: '/sample/18',
+  },
+  {
+    id: 19,
+    name: '样本名称19',
+    number: 13,
+    description: '样本描述19',
+    path: '/sample/19',
+  },
+  {
+    id: 20,
+    name: '样本名称20',
+    number: 5,
+    description: '样本描述20',
+    path: '/sample/20',
+  },
+]
+
+const model = {
+  nodes: [],
+  endpoints: [],
+  edges: [], // 边的对应关系(sourceId -> targetId)
+  head: '',
+}
 const task = [
-  // get Flow Chart Data
-  // {
-  //   url: '/taskboard/getAllinfo',
-  //   type: 'get',
-  //   response: _ => {
-  //     return {
-  //       code: 20000,
-  //       data: {
-  //         nodes: [
-  //           {
-  //             id: 'aaa',
-  //             points: {
-  //               targets: [],
-  //               sources: ['source1', 'source2', 'source10'],
-  //             },
-  //             position: {
-  //               left: 300,
-  //               top: 100,
-  //             },
-  //             data: {
-  //               value: '数据源1',
-  //               icon: 'Coin',
-  //             },
-  //           },
-  //           {
-  //             id: 'bbb',
-  //             points: {
-  //               targets: ['target1', 'target2', 'target3'],
-  //               sources: ['source3'],
-  //             },
-  //             position: {
-  //               left: 300,
-  //               top: 300,
-  //             },
-  //             data: {
-  //               value: '数据预处理1',
-  //               icon: 'MagicStick',
-  //             },
-  //           },
-  //           {
-  //             id: 'ccc',
-  //             points: {
-  //               targets: ['ccc111', 'ccc222'],
-  //               sources: ['ccc333'],
-  //             },
-  //             position: {
-  //               left: 400,
-  //               top: 500,
-  //             },
-  //             data: {
-  //               value: '深度学习1111',
-  //               icon: 'Coin',
-  //             },
-  //           },
-  //           {
-  //             id: 'ddd',
-  //             points: {
-  //               targets: ['ddd111'],
-  //               sources: ['ddd333', 'ddd222'],
-  //             },
-  //             position: {
-  //               left: 650,
-  //               top: 300,
-  //             },
-  //             data: {
-  //               value: '特征1111',
-  //               icon: 'StarFilled',
-  //               nodeState: 'warning',
-  //             },
-  //           },
-  //         ],
-  //         endpoints: [
-  //           {
-  //             id: 'target1',
-  //             data: {
-  //               value: '输入',
-  //             },
-  //           },
-  //           {
-  //             id: 'target2',
-  //             data: {
-  //               value: '输入1',
-  //             },
-  //           },
-  //           {
-  //             id: 'source1',
-  //             data: {
-  //               value: '输出表1',
-  //             },
-  //           },
-  //           {
-  //             id: 'source2',
-  //             data: {
-  //               value: '输出表2',
-  //             },
-  //           },
-  //           {
-  //             id: 'source3',
-  //             data: {
-  //               value: '输出表',
-  //             },
-  //           },
-  //           {
-  //             id: 'ccc111',
-  //             data: {
-  //               value: '输入c1',
-  //             },
-  //           },
-  //           {
-  //             id: 'ccc222',
-  //             data: {
-  //               value: '输入c2',
-  //             },
-  //           },
-  //           {
-  //             id: 'ccc333',
-  //             data: {
-  //               value: '输出表',
-  //             },
-  //           },
-  //           {
-  //             id: 'source10',
-  //             data: {
-  //               value: '输出表3',
-  //             },
-  //           },
-  //           {
-  //             id: 'target3',
-  //             data: {
-  //               value: '输入3',
-  //             },
-  //           },
-  //           {
-  //             id: 'ddd111',
-  //             data: {
-  //               value: '输入',
-  //             },
-  //           },
-  //           {
-  //             id: 'ddd222',
-  //             data: {
-  //               value: '输出DDD',
-  //             },
-  //           },
-  //           {
-  //             id: 'ddd333',
-  //             data: {
-  //               value: '输出E',
-  //             },
-  //           },
-  //         ],
-  //         edges: ['source1&&target1', 'source2&&target2', 'source3&&ccc111', 'source3&&ccc222'], // 边的对应关系(sourceId -> targetId)
-  //         head: 'aaa',
-  //       }
-  //     }
-  //   }
-  // },
-
+  // 保存模型
   {
-    url: '/taskboard/getAllinfo',
-    type: 'get',
-    response: (_) => {
+    url: '/taskboard/saveTaskModel',
+    type: 'post',
+    response: (config) => {
+      console.log(config)
       return {
-        code: 20000,
-        data: {
-          nodes: [],
-          endpoints: [],
-          edges: [], // 边的对应关系(sourceId -> targetId)
-          head: '',
-        },
+        code: 200,
       }
     },
   },
 
-  // get Menu Data
+  // 获取任务数据源
   {
-    url: '/api/getMenuData',
+    url: '/taskboard/getTaskSource',
     type: 'get',
-    response: (_) => {
+    response: (config) => {
+      console.log(config)
       return {
-        code: 20000,
-        data: [
-          {
-            label: '数据源',
-            id: 'source',
-            icon: 'Coin',
-          },
-          {
-            label: '隐私保护算法',
-            id: 'learn',
-            children: [
-              {
-                label: '标准模式',
-                id: 'Normal Training',
-                icon: 'StarFilled',
-              },
-              {
-                label: '差分隐私',
-                id: 'Differential Privacy Training',
-                icon: 'StarFilled',
-              },
-              {
-                label: '同态加密',
-                id: 'Homomorphic Encryption',
-                icon: 'StarFilled',
-              },
-              {
-                label: 'XNegDL',
-                id: 'Negative Database',
-                icon: 'StarFilled',
-              },
-              {
-                label: 'PPUTL',
-                id: 'Improved Generative Adversarial Networks',
-                icon: 'StarFilled',
-              },
-              {
-                label: '共享数据',
-                id: 'Weight Sharing for Collaborative Learning',
-                icon: 'StarFilled',
-              },
-            ],
-          },
-          {
-            label: '模型对比',
-            id: 'contrast',
-            icon: 'Coin',
-          },
-        ],
+        code: 200,
+        data: taskSource,
       }
     },
   },
 
-  // get Menu Data
+  // 获取攻击数据源
   {
-    url: '/api/getMenuAttack',
+    url: '/taskboard/getAttackSource',
     type: 'get',
-    response: (_) => {
+    response: (config) => {
+      console.log(config)
       return {
-        code: 20000,
-        data: [
-          {
-            label: '数据源',
-            id: 'source',
-            icon: 'Coin',
-          },
-          {
-            label: '加密算法',
-            id: 'learn',
-            children: [
-              {
-                label: '标准模式',
-                id: 'Normal',
-                icon: 'StarFilled',
-              },
-              {
-                label: '差分隐私',
-                id: 'Differential Privacy Training',
-                icon: 'StarFilled',
-              },
-              {
-                label: '同态加密',
-                id: 'Homomorphic Encryption',
-                icon: 'StarFilled',
-              },
-              {
-                label: '负数据库',
-                id: 'Negative Database',
-                icon: 'StarFilled',
-              },
-              {
-                label: '改进的CGAN',
-                id: '改进的CGAN',
-                icon: 'StarFilled',
-              },
-              {
-                label: '矩阵变换与排序',
-                id: '矩阵变换与排序',
-                icon: 'StarFilled',
-              },
-            ],
-          },
-          {
-            label: '攻击算法',
-            id: 'attack',
-            children: [
-              {
-                label: '梯度泄露',
-                id: 'Gradient Leakage',
-                icon: 'StarFilled',
-              },
-              {
-                label: '成员推理',
-                id: 'Membership Inference',
-                icon: 'StarFilled',
-              },
-              {
-                label: '模型逆向',
-                id: 'Model Inversion',
-                icon: 'StarFilled',
-              },
-            ],
-          },
-          // , {
-          //   label: '模型对比',
-          //   id: 'contrast',
-          //   icon: 'Coin'
-          // }
-        ],
+        code: 200,
+        data: attackSource,
+      }
+    },
+  },
+
+  // 获取任务模型
+  {
+    url: '/taskboard/getTaskModel',
+    type: 'get',
+    response: (config) => {
+      console.log(config)
+      return {
+        code: 200,
+        data: JSON.stringify(model),
       }
     },
   },

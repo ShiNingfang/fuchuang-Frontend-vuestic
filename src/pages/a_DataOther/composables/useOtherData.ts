@@ -1,6 +1,6 @@
 import { Ref, ref, unref, watch } from 'vue'
 import {
-  getOtherData,
+  // getOtherData,
   updateOtherData,
   addOtherData,
   removeOtherData,
@@ -10,6 +10,10 @@ import {
 } from '../../../data/pages/otherdata'
 import { OtherData } from '../types'
 import { watchIgnorable } from '@vueuse/core'
+import { getOtherData } from '../../../api/dataget'
+import { applyData } from '../../../api/datapost.js'
+import { useUserStore } from '../../../stores/user-store'
+const userStore = useUserStore()
 
 const makePaginationRef = () => ref<Pagination>({ page: 1, perPage: 10, total: 0 })
 const makeSortingRef = () => ref<Sorting>({ sortBy: 'name', sortingOrder: null })
@@ -28,9 +32,12 @@ export const useOtherData = (options?: {
   const fetch = async () => {
     isLoading.value = true
     const { data, pagination: newPagination } = await getOtherData({
-      ...unref(filters),
-      ...unref(sorting),
-      ...unref(pagination),
+      id: userStore.id,
+      filters: {
+        ...unref(filters),
+        ...unref(sorting),
+        ...unref(pagination),
+      },
     })
     otherData.value = data
 
@@ -66,23 +73,12 @@ export const useOtherData = (options?: {
 
     fetch,
 
-    async add(data: OtherData) {
+    async apply(data: OtherData) {
       isLoading.value = true
-      await addOtherData(data)
-      await fetch()
-      isLoading.value = false
-    },
-
-    async update(data: OtherData) {
-      isLoading.value = true
-      await updateOtherData(data)
-      await fetch()
-      isLoading.value = false
-    },
-
-    async remove(data: OtherData) {
-      isLoading.value = true
-      await removeOtherData(data)
+      await applyData({
+        data_id: data.id,
+        user_id: data.owner.id
+      })
       await fetch()
       isLoading.value = false
     },

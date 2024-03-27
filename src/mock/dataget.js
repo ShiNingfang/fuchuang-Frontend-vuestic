@@ -1,266 +1,618 @@
 import Mock from 'mockjs'
-// 有意义的单词数组
-const cifar10Words = [
-  '狗',
-  '猫',
-  '鸟',
-  '鱼',
-  '马',
-  '自行车',
-  '汽车',
-  '飞机',
-  '船',
-  '家具',
-  '水果',
-  '蔬菜',
-  '电子产品',
-  '服装',
-  '体育用品',
+const mineData = [
+  {
+    id: 1,
+    name: '样本1',
+    number: 10,
+    description: '这是一个样本描述。',
+    path: '/sample/1',
+    auth_number: 5,
+    upload_time: new Date('2024-03-26T08:00:00Z'),
+    status: 'public',
+  },
+  {
+    id: 2,
+    name: '样本2',
+    number: 8,
+    description: '这是另一个样本描述。',
+    path: '/sample/2',
+    auth_number: 3,
+    upload_time: new Date('2024-03-25T10:30:00Z'),
+    status: 'private',
+  },
+  {
+    id: 3,
+    name: '样本3',
+    number: 15,
+    description: '这是第三个样本描述。',
+    path: '/sample/3',
+    auth_number: 7,
+    upload_time: new Date('2024-03-24T15:45:00Z'),
+    status: 'public',
+  },
+  {
+    id: 4,
+    name: '样本4',
+    number: 5,
+    description: '这是第四个样本描述。',
+    path: '/sample/4',
+    auth_number: 2,
+    upload_time: new Date('2024-03-23T12:20:00Z'),
+    status: 'deleted',
+  },
+  {
+    id: 5,
+    name: '样本5',
+    number: 12,
+    description: '这是第五个样本描述。',
+    path: '/sample/5',
+    auth_number: 6,
+    upload_time: new Date('2024-03-22T09:10:00Z'),
+    status: 'public',
+  },
+  {
+    id: 6,
+    name: '样本6',
+    number: 7,
+    description: '这是第六个样本描述。',
+    path: '/sample/6',
+    auth_number: 4,
+    upload_time: new Date('2024-03-21T14:00:00Z'),
+    status: 'private',
+  },
+  {
+    id: 7,
+    name: '样本7',
+    number: 9,
+    description: '这是第七个样本描述。',
+    path: '/sample/7',
+    auth_number: 5,
+    upload_time: new Date('2024-03-20T11:30:00Z'),
+    status: 'public',
+  },
+  {
+    id: 8,
+    name: '样本8',
+    number: 11,
+    description: '这是第八个样本描述。',
+    path: '/sample/8',
+    auth_number: 3,
+    upload_time: new Date('2024-03-19T08:45:00Z'),
+    status: 'private',
+  },
+  {
+    id: 9,
+    name: '样本9',
+    number: 6,
+    description: '这是第九个样本描述。',
+    path: '/sample/9',
+    auth_number: 2,
+    upload_time: new Date('2024-03-18T13:20:00Z'),
+    status: 'public',
+  },
+  {
+    id: 10,
+    name: '样本10',
+    number: 13,
+    description: '这是第十个样本描述。',
+    path: '/sample/10',
+    auth_number: 7,
+    upload_time: new Date('2024-03-17T10:10:00Z'),
+    status: 'public',
+  },
+  {
+    id: 11,
+    name: '样本11',
+    number: 4,
+    description: '这是第十一个样本描述。',
+    path: '/sample/11',
+    auth_number: 1,
+    upload_time: new Date('2024-03-16T15:00:00Z'),
+    status: 'private',
+  },
+  {
+    id: 12,
+    name: '样本12',
+    number: 8,
+    description: '这是第十二个样本描述。',
+    path: '/sample/12',
+    auth_number: 4,
+    upload_time: new Date('2024-03-15T09:30:00Z'),
+    status: 'public',
+  },
+  {
+    id: 13,
+    name: '样本13',
+    number: 10,
+    description: '这是第十三个样本描述。',
+    path: '/sample/13',
+    auth_number: 5,
+    upload_time: new Date('2024-03-14T11:45:00Z'),
+    status: 'deleted',
+  },
+  {
+    id: 14,
+    name: '样本14',
+    number: 7,
+    description: '这是第十四个样本描述。',
+    path: '/sample/14',
+    auth_number: 3,
+    upload_time: new Date('2024-03-13T14:20:00Z'),
+    status: 'public',
+  },
+  {
+    id: 15,
+    name: '样本15',
+    number: 12,
+    description: '这是第十五个样本描述。',
+    path: '/sample/15',
+    auth_number: 6,
+    upload_time: new Date('2024-03-12T08:00:00Z'),
+    status: 'public',
+  },
+  {
+    id: 16,
+    name: '样本16',
+    number: 9,
+    description: '这是第十六个样本描述。',
+    path: '/sample/16',
+    auth_number: 4,
+    upload_time: new Date('2024-03-11T10:30:00Z'),
+    status: 'private',
+  },
+  {
+    id: 17,
+    name: '样本17',
+    number: 14,
+    description: '这是第十七个样本描述。',
+    path: '/sample/17',
+    auth_number: 7,
+    upload_time: new Date('2024-03-10T15:45:00Z'),
+    status: 'public',
+  },
+  {
+    id: 18,
+    name: '样本18',
+    number: 6,
+    description: '这是第十八个样本描述。',
+    path: '/sample/18',
+    auth_number: 3,
+    upload_time: new Date('2024-03-09T12:20:00Z'),
+    status: 'private',
+  },
+  {
+    id: 19,
+    name: '样本19',
+    number: 11,
+    description: '这是第十九个样本描述。',
+    path: '/sample/19',
+    auth_number: 5,
+    upload_time: new Date('2024-03-08T09:10:00Z'),
+    status: 'public',
+  },
+  {
+    id: 20,
+    name: '样本20',
+    number: 8,
+    description: '这是第二十个样本描述。',
+    path: '/sample/20',
+    auth_number: 4,
+    upload_time: new Date('2024-03-07T14:00:00Z'),
+    status: 'public',
+  },
 ]
-const similarCifar10Categories = [
-  '飞机',
-  '汽车',
-  '鸟',
-  '猫',
-  '鹿',
-  '狗',
-  '青蛙',
-  '马',
-  '船',
-  '卡车',
-  '摩托车',
-  '公交车',
-  '火车',
-  '熊',
-  '鱼',
-  '花',
-  '树',
-  '蘑菇',
-  '桥',
-  '建筑',
+const otherData = [
+  {
+    id: 1,
+    name: '项目名称1',
+    owner: {
+      id: 1,
+      name: '所有者姓名1',
+      photo: '',
+    },
+    number: 10,
+    description: '项目描述1',
+    status: 'waiting',
+  },
+  {
+    id: 2,
+    name: '项目名称2',
+    owner: {
+      id: 2,
+      name: '所有者姓名2',
+      photo: '',
+    },
+    number: 8,
+    description: '项目描述2',
+    status: 'null',
+  },
+  {
+    id: 3,
+    name: '项目名称3',
+    owner: {
+      id: 3,
+      name: '所有者姓名3',
+      photo: '',
+    },
+    number: 15,
+    description: '项目描述3',
+    status: 'got',
+  },
+  {
+    id: 4,
+    name: '项目名称4',
+    owner: {
+      id: 4,
+      name: '所有者姓名4',
+      photo: '',
+    },
+    number: 5,
+    description: '项目描述4',
+    status: 'waiting',
+  },
+  {
+    id: 5,
+    name: '项目名称5',
+    owner: {
+      id: 5,
+      name: '所有者姓名5',
+      photo: '',
+    },
+    number: 12,
+    description: '项目描述5',
+    status: 'null',
+  },
+  {
+    id: 6,
+    name: '项目名称6',
+    owner: {
+      id: 6,
+      name: '所有者姓名6',
+      photo: '',
+    },
+    number: 7,
+    description: '项目描述6',
+    status: 'got',
+  },
+  {
+    id: 7,
+    name: '项目名称7',
+    owner: {
+      id: 7,
+      name: '所有者姓名7',
+      photo: '',
+    },
+    number: 9,
+    description: '项目描述7',
+    status: 'waiting',
+  },
+  {
+    id: 8,
+    name: '项目名称8',
+    owner: {
+      id: 8,
+      name: '所有者姓名8',
+      photo: '',
+    },
+    number: 11,
+    description: '项目描述8',
+    status: 'null',
+  },
+  {
+    id: 9,
+    name: '项目名称9',
+    owner: {
+      id: 9,
+      name: '所有者姓名9',
+      photo: '',
+    },
+    number: 6,
+    description: '项目描述9',
+    status: 'got',
+  },
+  {
+    id: 10,
+    name: '项目名称10',
+    owner: {
+      id: 10,
+      name: '所有者姓名10',
+      photo: '',
+    },
+    number: 13,
+    description: '项目描述10',
+    status: 'waiting',
+  },
+  {
+    id: 11,
+    name: '项目名称11',
+    owner: {
+      id: 11,
+      name: '所有者姓名11',
+      photo: '',
+    },
+    number: 4,
+    description: '项目描述11',
+    status: 'null',
+  },
+  {
+    id: 12,
+    name: '项目名称12',
+    owner: {
+      id: 12,
+      name: '所有者姓名12',
+      photo: '',
+    },
+    number: 8,
+    description: '项目描述12',
+    status: 'got',
+  },
+  {
+    id: 13,
+    name: '项目名称13',
+    owner: {
+      id: 13,
+      name: '所有者姓名13',
+      photo: '',
+    },
+    number: 10,
+    description: '项目描述13',
+    status: 'waiting',
+  },
+  {
+    id: 14,
+    name: '项目名称14',
+    owner: {
+      id: 14,
+      name: '所有者姓名14',
+      photo: '',
+    },
+    number: 7,
+    description: '项目描述14',
+    status: 'null',
+  },
+  {
+    id: 15,
+    name: '项目名称15',
+    owner: {
+      id: 15,
+      name: '所有者姓名15',
+      photo: '',
+    },
+    number: 12,
+    description: '项目描述15',
+    status: 'got',
+  },
 ]
-const similarCifar10Task = ['任务a', '任务b', 'test_01', 'cifar_05']
-
-// 有意义的句子数组
-const cifar10Descriptions = [
-  '这个数据集包含来自10个不同类别的彩色图像。',
-  '每个类别有大约6000张图像，共计60000张图像。',
-  '图像的分辨率为32x32像素。',
-  '这个数据集是用于图像分类任务的标准基准。',
-  '图像类别包括动物、交通工具、家具等。',
-  '每张图像都有一个标签，指示它属于哪个类别。',
-  '数据集已经被预处理和标准化，可以直接用于训练机器学习模型。',
-  'CIFAR-10数据集是计算机视觉领域中最常用的数据集之一。',
-  '这个数据集广泛用于研究图像分类、目标检测和图像生成等任务。',
-  'CIFAR-10数据集的类别丰富多样，适合用于各种图像识别任务。',
-  '这个数据集包含10个类别的彩色图像，是机器学习领域的经典数据集之一。',
-  '图像类别包括猫、狗、汽车、飞机等。',
-  'CIFAR-10数据集的图像已经被标注和分类。',
-  '图像的质量和内容涵盖了多个现实世界的场景和对象。',
-  '这个数据集可以用于测试图像分类算法的性能和准确度。',
-  '每个图像都经过了大小标准化和预处理，以便于机器学习算法的处理。',
-  'CIFAR-10数据集的图像经过了人工验证和筛选，确保了数据的质量和准确性。',
-  '这个数据集是学术界和工业界广泛使用的基准测试集之一。',
-  'CIFAR-10数据集的图像涵盖了多个角度和视角，具有一定的挑战性。',
-  '该数据集包含了来自不同摄影师、场景和时间的图像。',
-  '每个图像都包含了丰富的信息，可以用于各种计算机视觉任务。',
-  '这个数据集的图像分布均匀，确保了各个类别的样本数量相近。',
-  'CIFAR-10数据集已经成为了深度学习模型性能评估的标准数据集之一。',
-  '图像的标签信息已经经过了严格的验证和审查，确保了数据的正确性。',
-  '该数据集可以用于训练分类器、生成器和判别器等各种神经网络模型。',
-  'CIFAR-10数据集已经被广泛用于教学和研究领域。',
-  '这个数据集可以用于检验图像分类算法的鲁棒性和泛化能力。',
-  '每个类别的图像都具有一定的变化和多样性。',
-  'CIFAR-10数据集的图像已经经过了去噪和预处理，以便于机器学习算法的学习。',
-  '这个数据集可以用于分析图像分类算法的错误模式和改进方向。',
-  '图像的内容和主题涵盖了生活的各个方面和领域。',
-  'CIFAR-10数据集的图像可以用于训练监督学习和无监督学习模型。',
-  '每个图像都具有丰富的语义信息和视觉特征。',
-  '该数据集包含了大量的真实世界图像样本。',
-  'CIFAR-10数据集已经被广泛用于图像生成和风格迁移等任务。',
-  '这个数据集可以用于测试和验证各种图像处理和增强算法。',
-  '图像的标签信息是可靠和准确的。',
-  'CIFAR-10数据集的图像来源于各种不同的来源和途径。',
-  '该数据集是学术界和工业界研究的重要资源之一。',
-  '这个数据集可以用于训练各种卷积神经网络模型。',
-  '图像的分布是均匀的，确保了模型训练的有效性和准确性。',
-  'CIFAR-10数据集的图像具有一定的挑战性和复杂性。',
-  '每个图像都具有清晰的边界和特征。',
-  '该数据集可以用于评估和比较不同图像分类算法的性能。',
-  '图像的质量和清晰度都经过了严格的控制和测试。',
-  'CIFAR-10数据集的图像是多样化和全面的。',
-  '这个数据集可以用于研究图像分类模型的鲁棒性和稳定性。',
-  '图像的类别和标签信息是完整和准确的。',
-  '该数据集可以用于图像识别、检测和分割等任务。',
-  'CIFAR-10数据集的图像是无偏的，确保了模型的泛化能力。',
-  '每个图像都包含了丰富的颜色和纹理信息。',
-  '这个数据集可以用于研究数据增强和样本平衡等技术。',
-  '图像的内容和主题是多样化和丰富的。',
-  'CIFAR-10数据集的图像可以用于训练端到端的深度学习模型。',
-  '这个数据集包含来自10个不同类别的彩色图像。',
-  '每个类别有大约6000张图像，共计60000张图像。',
-  '图像的分辨率为32x32像素。',
-  '这个数据集是用于图像分类任务的标准基准。',
-  '图像类别包括动物、交通工具、家具等。',
-  '每张图像都有一个标签，指示它属于哪个类别。',
-  '数据集已经被预处理和标准化，可以直接用于训练机器学习模型。',
-  'CIFAR-10数据集是计算机视觉领域中最常用的数据集之一。',
-  '这个数据集广泛用于研究图像分类、目标检测和图像生成等任务。',
-  'CIFAR-10数据集的类别丰富多样，适合用于各种图像识别任务。',
-  '这个数据集具有较低的图像分辨率，但仍然是许多计算机视觉算法的重要基准。',
-  'CIFAR-10数据集的类别包括猫、狗、鸟、飞机等常见物体。',
-  '这个数据集被广泛用于测试深度学习模型的性能。',
-  'CIFAR-10数据集的图像来自真实世界，具有一定的复杂性。',
-  '数据集中的图像经过手工标注，确保了标签的准确性。',
-  'CIFAR-10数据集是深度学习入门者和研究人员的首选。',
-  '使用CIFAR-10数据集可以帮助研究人员理解和解决图像分类问题。',
-  '这个数据集的图像经过归一化处理，使其适合用于各种深度学习模型。',
-  'CIFAR-10数据集的类别之间存在一定程度的类内相似性和类间差异性。',
-  '研究人员可以通过在CIFAR-10数据集上进行实验来评估他们的图像分类算法。',
-  'CIFAR-10数据集是机器学习社区中最受欢迎的图像数据集之一。',
-  '这个数据集包含了各种不同种类的物体，使其适合用于多任务学习。',
-  'CIFAR-10数据集的图像质量较高，适合用于训练高质量的图像分类模型。',
-  '这个数据集已经被用于许多研究项目和竞赛，如ImageNet挑战赛。',
-  'CIFAR-10数据集是评估图像分类算法性能的基准之一。',
-  '这个数据集的图像分布均匀，每个类别的样本数量相似。',
-  'CIFAR-10数据集是用于评估迁移学习和数据增强方法的理想选择。',
-  '研究人员可以通过在CIFAR-10数据集上进行实验来验证他们的研究成果。',
-  '这个数据集中的图像具有不同的光照、角度和背景，使其更具挑战性。',
-  'CIFAR-10数据集是用于评估卷积神经网络性能的重要基准。',
-  '这个数据集的图像经过了严格的筛选和过滤，确保了质量的一致性。',
-  'CIFAR-10数据集是机器学习研究领域中最具代表性的图像数据集之一。',
-  '使用CIFAR-10数据集可以加速图像分类算法的开发和研究。',
-  '这个数据集的图像覆盖了许多不同的场景和环境。',
-  'CIFAR-10数据集的图像经过了严格的质量控制，确保了数据的可靠性。',
-  '研究人员可以通过在CIFAR-10数据集上进行实验来比较不同算法的性能。',
-  '这个数据集包含了各种各样的图像，使其适合用于多领域的研究项目。',
-  'CIFAR-10数据集的类别具有一定的语义相关性，使其更易于理解和分析。',
-  '这个数据集已经成为机器学习教育和培训的标准资料之一。',
-  'CIFAR-10数据集是深度学习算法开发和测试的重要资源。',
-  '这个数据集的图像包含了许多不同的物体形态和姿态。',
-  'CIFAR-10数据集的图像经过了严格的分类和标注，确保了数据的准确性。',
-  '研究人员可以通过在CIFAR-10数据集上进行实验来评估他们的模型的泛化能力。',
-  '这个数据集的图像具有不同的图像质量和清晰度，使其更具挑战性。',
-  'CIFAR-10数据集是评估图像分类算法鲁棒性的重要基准。',
-  '这个数据集包含了许多不同种类的物体，使其适合用于多样化的研究项目。',
-  'CIFAR-10数据集的图像涵盖了各种各样的环境和场景。',
+const authData = [
+  {
+    id: 1,
+    name: '项目名称1',
+    getter: {
+      id: 1,
+      name: '获得者姓名1',
+      photo: '',
+    },
+    number: 10,
+    description: '项目描述1',
+    usage: '项目用途1',
+    deadline: new Date('2024-04-10T00:00:00Z'),
+    status: 'waiting',
+  },
+  {
+    id: 2,
+    name: '项目名称2',
+    getter: {
+      id: 2,
+      name: '获得者姓名2',
+      photo: '',
+    },
+    number: 8,
+    description: '项目描述2',
+    usage: '项目用途2',
+    deadline: new Date('2024-04-11T00:00:00Z'),
+    status: 'agree',
+  },
+  {
+    id: 3,
+    name: '项目名称3',
+    getter: {
+      id: 3,
+      name: '获得者姓名3',
+      photo: '',
+    },
+    number: 15,
+    description: '项目描述3',
+    usage: '项目用途3',
+    deadline: new Date('2024-04-12T00:00:00Z'),
+    status: 'no',
+  },
+  {
+    id: 4,
+    name: '项目名称4',
+    getter: {
+      id: 4,
+      name: '获得者姓名4',
+      photo: '',
+    },
+    number: 5,
+    description: '项目描述4',
+    usage: '项目用途4',
+    deadline: new Date('2024-04-13T00:00:00Z'),
+    status: 'waiting',
+  },
+  {
+    id: 5,
+    name: '项目名称5',
+    getter: {
+      id: 5,
+      name: '获得者姓名5',
+      photo: '',
+    },
+    number: 12,
+    description: '项目描述5',
+    usage: '项目用途5',
+    deadline: new Date('2024-04-14T00:00:00Z'),
+    status: 'agree',
+  },
+  {
+    id: 6,
+    name: '项目名称6',
+    getter: {
+      id: 6,
+      name: '获得者姓名6',
+      photo: '',
+    },
+    number: 7,
+    description: '项目描述6',
+    usage: '项目用途6',
+    deadline: new Date('2024-04-15T00:00:00Z'),
+    status: 'no',
+  },
+  {
+    id: 7,
+    name: '项目名称7',
+    getter: {
+      id: 7,
+      name: '获得者姓名7',
+      photo: '',
+    },
+    number: 9,
+    description: '项目描述7',
+    usage: '项目用途7',
+    deadline: new Date('2024-04-16T00:00:00Z'),
+    status: 'waiting',
+  },
+  {
+    id: 8,
+    name: '项目名称8',
+    getter: {
+      id: 8,
+      name: '获得者姓名8',
+      photo: '',
+    },
+    number: 11,
+    description: '项目描述8',
+    usage: '项目用途8',
+    deadline: new Date('2024-04-17T00:00:00Z'),
+    status: 'agree',
+  },
+  {
+    id: 9,
+    name: '项目名称9',
+    getter: {
+      id: 9,
+      name: '获得者姓名9',
+      photo: '',
+    },
+    number: 6,
+    description: '项目描述9',
+    usage: '项目用途9',
+    deadline: new Date('2024-04-18T00:00:00Z'),
+    status: 'no',
+  },
+  {
+    id: 10,
+    name: '项目名称10',
+    getter: {
+      id: 10,
+      name: '获得者姓名10',
+      photo: '',
+    },
+    number: 13,
+    description: '项目描述10',
+    usage: '项目用途10',
+    deadline: new Date('2024-04-19T00:00:00Z'),
+    status: 'waiting',
+  },
+  {
+    id: 11,
+    name: '项目名称11',
+    getter: {
+      id: 11,
+      name: '获得者姓名11',
+      photo: '',
+    },
+    number: 4,
+    description: '项目描述11',
+    usage: '项目用途11',
+    deadline: new Date('2024-04-20T00:00:00Z'),
+    status: 'agree',
+  },
+  {
+    id: 12,
+    name: '项目名称12',
+    getter: {
+      id: 12,
+      name: '获得者姓名12',
+      photo: '',
+    },
+    number: 8,
+    description: '项目描述12',
+    usage: '项目用途12',
+    deadline: new Date('2024-04-21T00:00:00Z'),
+    status: 'no',
+  },
+  {
+    id: 13,
+    name: '项目名称13',
+    getter: {
+      id: 13,
+      name: '获得者姓名13',
+      photo: '',
+    },
+    number: 10,
+    description: '项目描述13',
+    usage: '项目用途13',
+    deadline: new Date('2024-04-22T00:00:00Z'),
+    status: 'waiting',
+  },
+  {
+    id: 14,
+    name: '项目名称14',
+    getter: {
+      id: 14,
+      name: '获得者姓名14',
+      photo: '',
+    },
+    number: 7,
+    description: '项目描述14',
+    usage: '项目用途14',
+    deadline: new Date('2024-04-23T00:00:00Z'),
+    status: 'agree',
+  },
+  {
+    id: 15,
+    name: '项目名称15',
+    getter: {
+      id: 15,
+      name: '获得者姓名15',
+      photo: '',
+    },
+    number: 12,
+    description: '项目描述15',
+    usage: '项目用途15',
+    deadline: new Date('2024-04-24T00:00:00Z'),
+    status: 'no',
+  },
 ]
-const cifar10TrainingProjectDescriptions = [
-  'CIFAR-10数据集是一个多样化的图像库，包含10种不同类别的小图像，非常适合用来训练图像识别模型。',
-  '每个类别由6000张32x32像素的彩色图像组成，提供了一个平衡的数据基础，用于训练和验证算法。',
-  '这个数据集经常被用作计算机视觉和深度学习研究的入门级挑战，是理解图像分类技术的理想材料。',
-  'CIFAR-10提供了一个实验平台，研究人员可以在此基础上测试新的图像处理算法和神经网络架构。',
-  '由于其多样性和复杂性，CIFAR-10数据集成为了机器学习社区中的一个标准测试集，用于评估模型的准确度和效率。',
-  '项目目标包括提高分类准确率、降低过拟合和探索数据增强技术，以改善模型的泛化能力。',
-  '通过在CIFAR-10数据集上的训练，研究人员可以掌握卷积神经网络(CNN)等先进图像识别技术。',
-  '数据集的多样性要求模型能够识别从动物到交通工具等广泛的对象，这对算法的鲁棒性提出了挑战。',
-  'CIFAR-10数据集广泛应用于学术界和工业界，帮助开发出更加高效和精确的图像识别工具。',
-  '研究团队使用CIFAR-10数据集来探索深度学习中的关键问题，如网络架构设计、激活函数选择和优化算法。',
-  'CIFAR-10的普及和应用促进了图像分类技术的快速发展，为自动驾驶、医疗成像和安全监控等领域奠定了基础。',
-  '这个数据集不仅适用于经典的监督学习任务，还可以用于半监督学习、无监督学习和迁移学习的研究。',
-  'CIFAR-10的应用案例包括图像自动标注、内容检索和对象识别，展示了深度学习技术的多样性和潜力。',
-  '项目中使用CIFAR-10数据集进行实验，可以帮助新手理解数据预处理、模型训练和评估指标等基本概念。',
-  '数据集的标准化和公开可用性确保了实验结果的可重复性和比较性，促进了科学研究的透明度和进步。',
-  'CIFAR-10挑战不仅在于提高分类精度，还在于如何有效地处理计算资源，实现快速的训练速度和低延迟的推断。',
-  '该数据集被用作基准，以评估和比较不同图像分类技术的性能，包括传统的机器学习方法和最新的深度学习模型。',
-]
-
-// 使用随机函数从数组中选择一个单词并添加随机数
-function getRandomWord(set) {
-  const randomWord = set[Math.floor(Math.random() * set.length)]
-  const randomNumber = Math.floor(Math.random() * 1000) // 生成一个0到999之间的随机数
-  return `${randomWord}_${randomNumber}`
+const pagination = {
+  page: 1,
+  perPage: 10,
+  total: 30,
 }
 
-// 使用随机函数从数组中选择一个句子
-function getRandomSentence(set) {
-  return set[Math.floor(Math.random() * set.length)]
-}
-
-function generateRandomDateTime() {
-  const startDate = new Date('2024-02-25')
-  const endDate = new Date('2024-03-05')
-  const randomTime = startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime())
-  const randomDateTime = new Date(randomTime)
-  // 将日期时间格式化为字符串
-  const formattedDateTime =
-    randomDateTime.toISOString().split('T')[0] + ' ' + randomDateTime.toTimeString().split(' ')[0]
-  return formattedDateTime
-}
-
-const List = []
-const count = 100
-
-for (let i = 0; i < count; i++) {
-  List.push(
-    Mock.mock({
-      idcode: '@guid', // 生成唯一标识符
-      simple_name: getRandomWord(cifar10Words), // 生成随机单词作为名称
-      set: '横向建模', // 生成1到10之间的随机整数作为集合编号
-      source: '@url', // 生成随机URL作为来源
-      origin_name: '@simple_name', // 生成随机单词作为原始名称
-      data_count: '@integer(1, 100)', // 生成1到100之间的随机整数作为数据计数
-      description: getRandomSentence(cifar10Descriptions), // 生成随机句子作为描述
-      join_count: '@integer(1, 50)', // 生成1到50之间的随机整数作为加入数量
-      update_time: generateRandomDateTime(), // 生成随机日期时间作为更新时间
-      path: '@url', // 生成随机URL作为路径
-      is_upload: '@boolean', // 随机生成布尔值作为是否上传标识
-      origin: '@name', // 生成随机单词作为来源
-      is_apply: '@boolean', // 随机生成布尔值作为是否申请标识
-      usage: '深度神经网络', // 固定字符串作为使用
-      deadline: generateRandomDateTime(), // 生成随机日期时间作为截止日期
-      is_agree: '@pick(["yes", "no", "unhandle"])', // 从数组中随机选择一个状态作为同意状态
-    }),
-  )
-}
-
-const List2 = [] // 确保List数组被初始化
-
-for (let i = 0; i < 100; i++) {
-  List2.push(
-    Mock.mock({
-      name: getRandomWord(similarCifar10Categories), // 生成随机单词作为名称
-      author: 'admin', // 作者固定为'admin'
-      'cooperator|1-5': ['@name'],
-      description: getRandomSentence(cifar10TrainingProjectDescriptions), // 生成随机句子作为描述
-      lastTime: generateRandomDateTime(), // 生成随机日期时间作为最后一次时间
-      type: '横向建模', // 从数组中随机选择一个类型
-      startTime: generateRandomDateTime(), // 生成随机日期时间作为开始时间
-    }),
-  )
-}
-
-const List3 = [] // 确保list3数组被初始化
-
-for (let i = 0; i < 5; i++) {
-  List3.push(
-    Mock.mock({
-      name: getRandomWord(similarCifar10Task), // 生成随机单词作为名称，假设原始数据中未定义则使用随机单词
-      type: '横向建模', // 从数组中随机选择一个类型
-      author: 'admin', // 作者固定为'admin'
-      'cooperator|1-5': ['@name'],
-      startTime: generateRandomDateTime(), // 生成随机日期作为开始时间
-    }),
-  )
-}
-
-const minedata = [
+const dataget = [
+  // 数据
   {
     url: '/data_mine/getItems',
     type: 'get',
     response: (config) => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-      const mockList = List.filter((item) => {
-        return true
-      })
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
+      console.log('/data_mine/getItems')
+      console.log(config)
       return {
-        code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList,
-        },
+        code: 200,
+        data: mineData,
+        pagination,
       }
     },
   },
@@ -268,15 +620,12 @@ const minedata = [
     url: '/data_other/getItems',
     type: 'get',
     response: (config) => {
-      const { page = 1, limit = 20 } = config.query
-      const pageList = List.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
+      console.log('/data_other/getItems')
+      console.log(config)
       return {
-        code: 20000,
-        data: {
-          total: List.length,
-          items: pageList,
-        },
+        code: 200,
+        data: otherData,
+        pagination,
       }
     },
   },
@@ -284,19 +633,17 @@ const minedata = [
     url: '/data_author/getItems',
     type: 'get',
     response: (config) => {
-      const { page = 1, limit = 20 } = config.query
-
-      const pageList = List.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
+      console.log('/data_author/getItems')
+      console.log(config)
       return {
-        code: 20000,
-        data: {
-          total: List.length,
-          items: pageList,
-        },
+        code: 200,
+        data: authData,
+        pagination,
       }
     },
   },
+
+  // 项目
   {
     url: '/project_mine/getItems',
     type: 'get',
@@ -317,7 +664,7 @@ const minedata = [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: mockList.length,
           items: pageList,
@@ -325,12 +672,13 @@ const minedata = [
       }
     },
   },
+  // 项目-可选合作方
   {
     url: '/project_mine/getOptions',
     type: 'get',
     response: (config) => {
       return {
-        code: 20000,
+        code: 200,
         data: {
           items: {
             number: ['snf', 'zzr', 'zzy', 'oyrl', 'wyx'],
@@ -340,12 +688,14 @@ const minedata = [
       }
     },
   },
+
+  // 任务面板
   {
     url: '/taskboard/getsimples',
     type: 'get',
     response: (config) => {
       return {
-        code: 20000,
+        code: 200,
         data: List,
       }
     },
@@ -360,7 +710,7 @@ const minedata = [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: mockList.length,
           items: pageList,
@@ -378,7 +728,7 @@ const minedata = [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: mockList.length,
           items: pageList,
@@ -388,4 +738,4 @@ const minedata = [
   },
 ]
 
-export default minedata
+export default dataget

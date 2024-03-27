@@ -68,14 +68,14 @@
                             >
                               <ElTableColumn type="selection" width="55" align="center" />
                               <ElTableColumn
-                                prop="simple_name"
+                                prop="name"
                                 label="样本名称"
                                 align="center"
                                 width="100px"
                                 show-overflow-tooltip
                               />
                               <ElTableColumn
-                                prop="data_count"
+                                prop="number"
                                 label="样本记录数"
                                 align="center"
                                 width="100px"
@@ -138,8 +138,7 @@ import * as Vue from 'vue'
 import VueSplitter from '@rmp135/vue-splitter'
 import AttackTree from '@/components/AttackTree.vue'
 // import TabPane from './TabPane'
-import { getFlowChartData } from '@/api/task'
-import { taskboard_getSimples } from '@/api/minedata'
+import { getAttackModel, getAttackSource } from '@/api/task'
 import FlowChart from '@/utils/AttackFlow/index'
 import PluginFlowExec from '@/utils/AttackFlow/pluginFlowExec'
 import { fetchList } from '@/api/minedata'
@@ -272,7 +271,7 @@ export default {
       }
     })
 
-    getFlowChartData().then((data) => {
+    getAttackModel().then((data) => {
       FlowChart.loadData(data.data)
     })
   },
@@ -296,7 +295,7 @@ export default {
       this.$message.success('模型保存成功')
     },
     getSimple() {
-      taskboard_getSimples().then((response) => {
+      getAttackSource().then((response) => {
         this.sourceTable = response.data
       })
     },

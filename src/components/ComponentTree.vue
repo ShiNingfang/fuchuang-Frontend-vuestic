@@ -20,7 +20,7 @@
 
 <script>
 import * as Vue from 'vue'
-import { getMenuData } from '@/api/task'
+import { getTaskMenu } from '@/api/task'
 import { Search, Coin, MagicStick, StarFilled } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 
@@ -48,8 +48,9 @@ export default {
     },
   },
   mounted() {
-    getMenuData().then((data) => {
-      this.nodeData = data.data
+    getTaskMenu().then((data) => {
+      console.log(data)
+      this.nodeData = data
     })
   },
   methods: {
@@ -98,7 +99,8 @@ export default {
                   },
                 },
                 [
-                  h('i', { // 这里不就是树的图标吗
+                  h('i', {
+                    // 这里不就是树的图标吗
                     class: {
                       [className]: !!data.children,
                       [classNameChild]: !data.children,

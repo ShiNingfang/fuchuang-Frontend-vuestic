@@ -1,15 +1,11 @@
 import { Ref, ref, unref, watch } from 'vue'
-import {
-  getAuthData,
-  updateAuthData,
-  addAuthData,
-  removeAuthData,
-  type Filters,
-  Pagination,
-  Sorting,
-} from '../../../data/pages/authdata'
+import { type Filters, Pagination, Sorting } from '../../../data/pages/authdata'
 import { AuthData } from '../types'
 import { watchIgnorable } from '@vueuse/core'
+import { getAuthData } from '../../../api/dataget'
+import { handleApply } from '../../../api/datapost.js'
+import { useUserStore } from '../../../stores/user-store'
+const userStore = useUserStore()
 
 const makePaginationRef = () => ref<Pagination>({ page: 1, perPage: 10, total: 0 })
 const makeSortingRef = () => ref<Sorting>({ sortBy: 'name', sortingOrder: null })
@@ -28,9 +24,12 @@ export const useAuthData = (options?: {
   const fetch = async () => {
     isLoading.value = true
     const { data, pagination: newPagination } = await getAuthData({
-      ...unref(filters),
-      ...unref(sorting),
-      ...unref(pagination),
+      id: userStore.id,
+      filters: {
+        ...unref(filters),
+        ...unref(sorting),
+        ...unref(pagination),
+      },
     })
     authData.value = data
 
@@ -65,24 +64,26 @@ export const useAuthData = (options?: {
     authData,
 
     fetch,
-
-    async add(data: AuthData) {
+    async agree(data: AuthData) {
       isLoading.value = true
-      await addAuthData(data)
-      await fetch()
-      isLoading.value = false
-    },
-
-    async update(data: AuthData) {
-      isLoading.value = true
-      await updateAuthData(data)
+      await handleApply({
+        id: data.id,
+        action: true, // true同意，false拒绝
+        usage: data.usage,
+        deadline: data.deadline,
+      })
       await fetch()
       isLoading.value = false
     },
 
     async remove(data: AuthData) {
       isLoading.value = true
-      await removeAuthData(data)
+      await handleApply({
+        id: data.id,
+        action: false, // true同意，false拒绝
+        usage: data.usage,
+        deadline: data.deadline,
+      })
       await fetch()
       isLoading.value = false
     },

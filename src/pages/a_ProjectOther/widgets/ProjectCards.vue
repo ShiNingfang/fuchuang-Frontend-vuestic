@@ -46,21 +46,21 @@ const avatarColor = (userName: string) => {
           </h4>
           <p>
             <span class="text-[var(--va-secondary)]">Owner: </span>
-            <span>{{ project.project_owner.fullname }}</span>
+            <span>{{ project.project_owner.name }}</span>
           </p>
           <VaAvatarGroup
             class="my-4"
             :options="
               project.team.map((user) => ({
-                label: user.fullname,
-                src: user.avatar,
-                fallbackText: user.fullname[0],
-                color: avatarColor(user.fullname),
+                label: user.name,
+                src: user.photo,
+                fallbackText: user.name[0],
+                color: avatarColor(user.name),
               }))
             "
             :max="5"
           />
-          <ProjectStatusBadge :status="project.status" />
+          <!-- <ProjectStatusBadge :status="project.status" /> -->
         </div>
       </VaCardContent>
     </VaCard>

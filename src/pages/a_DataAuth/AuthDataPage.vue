@@ -21,7 +21,7 @@ const { init: notify } = useToast()
 
 const onUserSaved = async (data: AuthData) => {
   {
-    usersApi.add(data)
+    usersApi.agree(data)
     notify({
       message: `已同意 “${data.name} ”的申请`,
       color: 'success',
@@ -86,7 +86,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         v-model:sort-by="sorting.sortBy"
         v-model:sorting-order="sorting.sortingOrder"
         :data="authData"
-        :dataType = "filters.authStatus"
+        :data-type="filters.authStatus"
         :loading="isLoading"
         :pagination="pagination"
         @agreeData="showAgreeModal"

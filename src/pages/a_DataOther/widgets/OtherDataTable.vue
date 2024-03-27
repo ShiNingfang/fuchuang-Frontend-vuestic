@@ -7,7 +7,7 @@ import { useVModel } from '@vueuse/core'
 
 const columns = defineVaDataTableColumns([
   { label: '样本名称', key: 'name', sortable: true },
-  { label: '来源', key: 'owner', sortable: false },
+  { label: '来源', key: 'owner.name', sortable: false },
   { label: '图片数量', key: 'number', sortable: true },
   { label: '描述', key: 'description', sortable: false },
   { label: ' ', key: 'actions', align: 'right' },
