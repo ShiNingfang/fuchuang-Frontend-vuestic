@@ -1,15 +1,11 @@
-import { Project } from '../projects/types'
+// import { Project } from '../projects/types'
 
-export type UserRole = 'admin' | 'user' | 'owner'
+// export type UserRole = 'admin' | 'user' | 'owner'
 
 export type User = {
   id: number
-  fullname: string
+  name: string
+  photo: string
   email: string
-  username: string
-  role: UserRole
-  avatar: string
-  projects: Project[]
-  notes: string
-  active: boolean
+  phone: string
 }

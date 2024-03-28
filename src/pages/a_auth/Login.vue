@@ -57,10 +57,11 @@ const formData = reactive({
 
 const submit = async () => {
   if (validate()) {
-    await Login({
+    const loginInfo = await Login({
       name: formData.name,
       password: formData.password,
     })
+    console.log(loginInfo)
     init({ message: '你已经成功登录', color: 'success' })
     push({ name: 'dashboard' })
   }

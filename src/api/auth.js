@@ -1,17 +1,32 @@
 import request from '@/utils/request'
 
+// post
 export function Register(data) {
-  return request({
+  const res = request({
     url: '/register',
     method: 'post',
-    data,
+    params: {
+      user_name: data.name,
+      password: data.password,
+    },
   })
+  return res
 }
 
 export function Login(data) {
-  return request({
+  const res = request({
     url: '/login/login',
     method: 'post',
-    data,
+    params: {
+      user_name: data.name,
+      password: data.password,
+    },
   })
+  return {
+    id: res.user_id,
+    name: res.user_name,
+    photo: res.avater_url,
+    phone: res.phone,
+    email: res.email,
+  }
 }

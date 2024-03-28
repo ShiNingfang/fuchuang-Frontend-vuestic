@@ -24,12 +24,13 @@ export const useMineData = (options?: {
   const fetch = async () => {
     isLoading.value = true
     const { data, pagination: newPagination } = await getMineData({
-      id: userStore.id,
-      filters: {
-        ...unref(filters),
-        ...unref(sorting),
-        ...unref(pagination),
-      },
+      user_id: userStore.id,
+      limit: filters.perPage,
+      page: filters.page,
+      sort_by: sorting.sortBy,
+      sorting_order: sorting.sortingOrder,
+      status: pagination.mineStatus,
+      search: pagination.search,
     })
     mineData.value = data
 

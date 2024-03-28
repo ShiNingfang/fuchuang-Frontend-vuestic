@@ -208,7 +208,7 @@ const otherData = [
     owner: {
       id: 1,
       name: '所有者姓名1',
-      photo: '',
+      photo: 'https://randomuser.me/api/portraits/men/1.jpg',
     },
     number: 10,
     description: '项目描述1',
