@@ -19,8 +19,10 @@ export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref
     isLoading.value = true
     const { data, pagination: newPagination } = await getOtherProject({
       id: userStore.id,
-      ...unref(sorting),
-      ...unref(pagination),
+      filters: {
+        ...unref(sorting),
+        ...unref(pagination),
+      },
     })
     projects.value = data as Project[]
     console.log(projects.value)

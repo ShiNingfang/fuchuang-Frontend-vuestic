@@ -12,7 +12,7 @@ const columns = defineVaDataTableColumns([
   { label: '创建者', key: 'project_owner', sortable: false },
   { label: '合作方', key: 'team', sortable: false },
   { label: '描述', key: 'description', sortable: false },
-  { label: '创建时间', key: 'creation_date', sortable: true },
+  { label: '创建时间', key: 'create_date', sortable: true },
 ])
 
 const props = defineProps({

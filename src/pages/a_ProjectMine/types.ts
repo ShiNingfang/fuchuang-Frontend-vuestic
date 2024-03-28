@@ -13,7 +13,7 @@ export type Project = {
   team: pjtUser[]
   type: string
   description: string
-  creation_date: Date
+  create_date: Date
 
   status?: 'important' | 'completed' | 'archived' | 'in progress'
 }

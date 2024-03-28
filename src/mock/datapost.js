@@ -49,28 +49,6 @@ const datapost = [
       }
     },
   },
-
-  // 项目
-  {
-    url: '/project_mine/create',
-    type: 'post',
-    response: () => {
-      return {
-        code: 200,
-        data: 'success',
-      }
-    },
-  },
-  {
-    url: '/project_mine/task/create',
-    type: 'post',
-    response: () => {
-      return {
-        code: 200,
-        data: 'success',
-      }
-    },
-  },
 ]
 
 export default datapost

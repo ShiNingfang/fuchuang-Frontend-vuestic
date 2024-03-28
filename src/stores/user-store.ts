@@ -2,19 +2,14 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    userName: 'Vasili Savitski',
-    email: 'vasili@gmail.com',
-    memberSince: '8/12/2020',
-    pfp: 'https://picsum.photos/id/22/200/300',
+    memberSince: '',
+    pfp: '',
     is2FAEnabled: false,
-    // Adding optional fields from the User type
-    id: 12,
-    fullname: 'Vasili Savitski',
-    username: 'snf',
-    role: 'admin',
-    avatar: undefined,
-    notes: 'snf hhh',
-    active: true,
+    id: '',
+    name: '',
+    avatar: '',
+    email: '', // 初始化为空字符串
+    phone: '', // 初始化为空字符串
   }),
   actions: {
     toggle2FA() {
@@ -22,9 +17,18 @@ export const useUserStore = defineStore('user', {
     },
 
     changeUserName(userName: string) {
-      this.userName = userName
+      this.name = userName
     },
 
-    // You can add more actions here to update the additional fields
+    saveLoginInfo(id: string, name: string, avatar: string) {
+      this.id = id
+      this.name = name
+      this.avatar = avatar
+    },
+  },
+  persist: {
+    afterRestore: (ctx) => {
+      console.log(`刚刚恢复完 '${ctx.store.$id}'`)
+    },
   },
 })

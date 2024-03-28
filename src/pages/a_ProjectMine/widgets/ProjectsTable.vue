@@ -12,7 +12,7 @@ const columns = defineVaDataTableColumns([
   { label: '创建者', key: 'project_owner', sortable: false },
   { label: '合作方', key: 'team', sortable: false },
   { label: '描述', key: 'description', sortable: false },
-  { label: '创建时间', key: 'creation_date', sortable: true },
+  { label: '创建时间', key: 'create_date', sortable: true },
   { label: ' ', key: 'actions' },
   // 在实际应用中，label 使得表格易于理解，而 key 确保了数据正确地映射到表格的相应列中。
   // 这种设计允许组件知道如何从提供的数据项中提取数据并在表格的正确位置显示它们。

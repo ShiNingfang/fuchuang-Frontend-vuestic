@@ -44,6 +44,9 @@ import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
 import { Login } from '../../api/auth'
+import { useUserStore } from '../../stores/user-store'
+
+const userStore = useUserStore()
 
 const { validate } = useForm('form')
 const { push } = useRouter()
@@ -57,13 +60,22 @@ const formData = reactive({
 
 const submit = async () => {
   if (validate()) {
-    const loginInfo = await Login({
+    await Login({
       name: formData.name,
       password: formData.password,
     })
-    console.log(loginInfo)
-    init({ message: '你已经成功登录', color: 'success' })
-    push({ name: 'dashboard' })
+      .then((res) => {
+        console.log(res.data)
+        console.log(userStore.id, userStore.name, userStore.avatar)
+        userStore.saveLoginInfo(res.data.id, res.data.name, res.data.photo)
+        // console.log(res.id, res.name, res.photo)
+        // console.log(userStore.id, userStore.name, userStore.avatar)
+        init({ message: '你已经成功登录', color: 'success' })
+        push({ name: 'dashboard' })
+      })
+      .catch((error) => {
+        init({ message: error, color: 'filed' })
+      })
   }
 }
 </script>

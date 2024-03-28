@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 const projectpost = [
   // 项目
   {
-    url: '/project_mine/create',
+    url: '/create_project',
     type: 'post',
     response: (config) => {
       console.log(config)

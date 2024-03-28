@@ -20,8 +20,10 @@ export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref
     isLoading.value = true
     const { data, pagination: newPagination } = await getMineProject({
       id: userStore.id,
-      ...unref(sorting),
-      ...unref(pagination),
+      filters: {
+        ...unref(sorting),
+        ...unref(pagination),
+      },
     })
     projects.value = data as Project[]
     console.log(projects.value)
@@ -44,17 +46,27 @@ export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref
 
     fetch,
 
+    async getCooperator() {
+      isLoading.value = true
+      await getAvailable({
+        id: userStore.id,
+      })
+      await fetch()
+      isLoading.value = false
+    },
+
     async add(project: Project) {
       isLoading.value = true
-      await createProject({
-        id: project.id,
-        project_name: project.project_name,
-        project_owner: project.project_owner,
-        team: project.team,
-        type: project.type,
-        description: project.description,
-        creation_date: project.creation_date,
-      })
+      await createProject(
+        // id: project.id,
+        // project_name: project.project_name,
+        // project_owner: project.project_owner,
+        // team: project.team,
+        // type: project.type,
+        // description: project.description,
+        // creation_date: project.creation_date,
+        project,
+      )
       await fetch()
       isLoading.value = false
     },

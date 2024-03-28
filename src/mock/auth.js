@@ -19,7 +19,11 @@ const auth = [
       console.log(config)
       return {
         code: 200,
-        data: 'success',
+        data: {
+          user_id: 1,
+          user_name: 'SNF',
+          avater_url: '',
+        },
       }
     },
   },

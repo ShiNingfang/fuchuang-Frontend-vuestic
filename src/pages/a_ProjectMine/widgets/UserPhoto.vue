@@ -28,7 +28,7 @@ const isUrl = (avatar: string) => {
   <VaAvatar
     :size="size"
     :src="isUrl(user.photo) ? user.photo : ''"
-    :fallback-text="user.photo || user.name[0]"
+    :fallback-text="user.name[0]"
     :color="avatarColor(user.name)"
   />
 </template>
