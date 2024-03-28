@@ -24,13 +24,12 @@ export const useMineData = (options?: {
   const fetch = async () => {
     isLoading.value = true
     const { data, pagination: newPagination } = await getMineData({
-      user_id: userStore.id,
-      limit: filters.perPage,
-      page: filters.page,
-      sort_by: sorting.sortBy,
-      sorting_order: sorting.sortingOrder,
-      status: pagination.mineStatus,
-      search: pagination.search,
+      id: userStore.id,
+      filters: {
+        ...unref(filters),
+        ...unref(sorting),
+        ...unref(pagination),
+      },
     })
     mineData.value = data
 
@@ -68,15 +67,16 @@ export const useMineData = (options?: {
 
     async add(data: MineData) {
       isLoading.value = true
-      await createMineData({
-        owner_id: data.owner,
-        name: data.name, // 样本名称
-        number: data.number, // 图片数量
-        description: data.description, // 描述
-        path: data.path, // 样本地址
-        auth_number: data.auth_number, // 授权数
-        upload_time: data.upload_time, // 上传时间
-      })
+      await createMineData(
+        // owner_id: data.owner,
+        // name: data.name, // 样本名称
+        // number: data.number, // 图片数量
+        // description: data.description, // 描述
+        // path: data.path, // 样本地址
+        // auth_number: data.auth_number, // 授权数
+        // upload_time: data.upload_time, // 上传时间
+        data,
+      )
       await fetch()
       isLoading.value = false
     },

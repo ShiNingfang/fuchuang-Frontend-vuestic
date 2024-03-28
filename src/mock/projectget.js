@@ -423,7 +423,7 @@ const AvailableList = [
 const projectget = [
   // 项目
   {
-    url: '/project_mine/getItems',
+    url: '/self_project',
     type: 'get',
     response: (config) => {
       console.log(config)

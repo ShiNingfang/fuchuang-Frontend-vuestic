@@ -15,7 +15,7 @@ export function Register(data) {
 
 export function Login(data) {
   const res = request({
-    url: '/login/login',
+    url: '/login',
     method: 'post',
     params: {
       user_name: data.name,

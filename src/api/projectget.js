@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getMineProject(query) {
   return request({
-    url: '/project_mine/getItems',
+    url: '/self_project',
     method: 'get',
     params: query,
   })

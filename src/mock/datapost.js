@@ -26,10 +26,10 @@ const datapost = [
     },
   },
   {
-    url: '/data_other/apply',
+    url: '/apply',
     type: 'post',
     response: (config) => {
-      console.log('/data_other/apply')
+      console.log('/apply')
       console.log(config)
       return {
         code: 200,
@@ -38,10 +38,10 @@ const datapost = [
     },
   },
   {
-    url: '/data_author/handle',
+    url: 'application_approve',
     type: 'post',
     response: (config) => {
-      console.log('/data_author/handle')
+      console.log('application_approve')
       console.log(config)
       return {
         code: 200,

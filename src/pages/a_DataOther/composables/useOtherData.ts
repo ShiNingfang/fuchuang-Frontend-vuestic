@@ -75,10 +75,11 @@ export const useOtherData = (options?: {
 
     async apply(data: OtherData) {
       isLoading.value = true
-      await applyData({
-        data_id: data.id,
-        user_id: data.owner.id
-      })
+      await applyData(
+        // data_id: data.id,
+        // user_id: data.owner.id,
+        data
+      )
       await fetch()
       isLoading.value = false
     },

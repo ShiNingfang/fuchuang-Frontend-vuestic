@@ -13,7 +13,7 @@ const auth = [
     },
   },
   {
-    url: '/login/login',
+    url: '/login',
     type: 'post',
     response: (config) => {
       console.log(config)

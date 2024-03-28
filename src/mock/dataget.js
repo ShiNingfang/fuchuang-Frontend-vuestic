@@ -604,10 +604,10 @@ const pagination = {
 const dataget = [
   // 数据
   {
-    url: '/data_mine/getItems',
+    url: '/self_dataset',
     type: 'get',
     response: (config) => {
-      console.log('/data_mine/getItems')
+      console.log('/self_dataset')
       console.log(config)
       return {
         code: 200,
@@ -617,10 +617,10 @@ const dataget = [
     },
   },
   {
-    url: '/data_other/getItems',
+    url: '/other_dataset',
     type: 'get',
     response: (config) => {
-      console.log('/data_other/getItems')
+      console.log('/other_dataset')
       console.log(config)
       return {
         code: 200,
@@ -630,10 +630,10 @@ const dataget = [
     },
   },
   {
-    url: '/data_author/getItems',
+    url: 'get_applications',
     type: 'get',
     response: (config) => {
-      console.log('/data_author/getItems')
+      console.log('get_applications')
       console.log(config)
       return {
         code: 200,

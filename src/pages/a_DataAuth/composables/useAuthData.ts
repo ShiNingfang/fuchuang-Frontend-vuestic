@@ -3,7 +3,7 @@ import { type Filters, Pagination, Sorting } from '../../../data/pages/authdata'
 import { AuthData } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 import { getAuthData } from '../../../api/dataget'
-import { handleApply } from '../../../api/datapost.js'
+import { approveApply, rejectApply } from '../../../api/datapost.js'
 import { useUserStore } from '../../../stores/user-store'
 const userStore = useUserStore()
 
@@ -66,24 +66,14 @@ export const useAuthData = (options?: {
     fetch,
     async agree(data: AuthData) {
       isLoading.value = true
-      await handleApply({
-        id: data.id,
-        action: true, // true同意，false拒绝
-        usage: data.usage,
-        deadline: data.deadline,
-      })
+      await approveApply(data)
       await fetch()
       isLoading.value = false
     },
 
     async remove(data: AuthData) {
       isLoading.value = true
-      await handleApply({
-        id: data.id,
-        action: false, // true同意，false拒绝
-        usage: data.usage,
-        deadline: data.deadline,
-      })
+      await rejectApply(data)
       await fetch()
       isLoading.value = false
     },

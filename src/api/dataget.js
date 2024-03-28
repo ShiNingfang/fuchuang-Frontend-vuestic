@@ -3,24 +3,48 @@ import request from '@/utils/request'
 // 数据样本
 export function getMineData(query) {
   return request({
-    url: '/data_mine/getItems',
+    url: '/self_dataset',
     method: 'get',
-    params: query,
+    params: {
+      user_id: query.id,
+      limit: query.filters.perPage,
+      page: query.filters.page,
+      sort_by: query.filters.sortBy,
+      sorting_order: query.filters.sortingOrder,
+      status: query.filters.mineStatus,
+      search: query.filters.search,
+    },
   })
 }
 export function getOtherData(query) {
   return request({
-    url: '/data_other/getItems',
+    url: '/other_dataset',
     method: 'get',
-    params: query,
+    params: {
+      user_id: query.id,
+      limit: query.filters.perPage,
+      page: query.filters.page,
+      sort_by: query.filters.sortBy,
+      sorting_order: query.filters.sortingOrder,
+      status: query.filters.otherStatus,
+      search: query.filters.search,
+    },
   })
 }
 
 export function getAuthData(query) {
   return request({
-    url: '/data_author/getItems',
+    url: '/get_applications',
     // 这里少了/会出问题，404，可能导航就从当下开始而不是从/开始
     method: 'get',
-    params: query,
+    params: {
+      user_id: query.id,
+      limit: query.filters.perPage,
+      page: query.filters.page,
+      sort_by: query.filters.sortBy,
+      sorting_order: query.filters.sortingOrder,
+      status: query.filters.authStatus,
+      search: query.filters.search,
+    },
   })
 }
