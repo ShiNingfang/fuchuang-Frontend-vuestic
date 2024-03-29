@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 const generateProject = () => ({
-  project_id: Mock.Random.increment(),
+  project_id: Mock.Random.integer(1, 100),
   project_name: Mock.Random.ctitle(3, 10),
   starter: {
     starter_id: Mock.Random.integer(1, 100),

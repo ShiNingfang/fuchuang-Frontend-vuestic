@@ -1,10 +1,43 @@
 import request from '@/utils/request'
 
 export function getTaskSource(query) {
-  return request({
-    url: '/taskboard/getTaskSource',
-    method: 'get',
-    params: query,
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/get_dataset',
+      method: 'get',
+      params: {
+        url: '/get_dataset',
+        method: 'get',
+        params: {
+          project_id: query,
+        },
+      },
+    })
+      .then((res) => {
+        console.log(res.data)
+        resolve({
+          code: res.code,
+          data: res.data.map((item) => ({
+            owner: {
+              id: item.user_id,
+              name: item.user_name,
+              photo: item.avatar_url,
+              ip: item.user_ip,
+            },
+            data: item.data_set.map((value) => ({
+              id: value.dataset_id,
+              name: value.dataset_name,
+              number: value.dataset_use,
+              description: value.dataset_describe,
+              path: value.dataset_address,
+            })),
+          })),
+          pagination: res.pagination,
+        })
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 
@@ -12,7 +45,9 @@ export function getAttackSource(query) {
   return request({
     url: '/taskboard/getAttackSource',
     method: 'get',
-    params: query,
+    params: {
+      project_id: query,
+    },
   })
 }
 
@@ -29,10 +64,13 @@ export function getAttackSource(query) {
 
 export function getTaskModel(query) {
   return request({
-    url: '/taskboard/getTaskModel',
+    url: '/get_model',
     method: 'get',
-    params: query,
+    params: {
+      project_id: query,
+    },
   }).then((res) => {
+    console.log(res.data)
     // 在这里对结果进行转换
     console.log(JSON.parse(res.data))
     return JSON.parse(res.data) // 假设返回的数据在res.data中，根据实际情况修改
@@ -40,12 +78,13 @@ export function getTaskModel(query) {
 }
 
 export function saveTaskModel(query) {
+  console.log(query.data)
   return request({
-    url: '/taskboard/saveTaskModel',
+    url: '/save_model',
     method: 'post',
     params: {
-      id: query.id,
-      data: JSON.stringify(query.data),
+      project_id: query.id,
+      model: JSON.stringify(query.data),
     },
   })
 }

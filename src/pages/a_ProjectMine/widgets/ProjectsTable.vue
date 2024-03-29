@@ -49,6 +49,7 @@ const emit = defineEmits<{
   (event: 'delete', project: Project): void
 }>()
 const gotoTaskBoard = (data: Project) => {
+  // console.log(data)
   push({ path: `/projects/task/${data.id}` })
 }
 const avatarColor = (userName: string) => {
@@ -117,7 +118,7 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
             color="primary"
             icon="mso-dialogs"
             aria-label="Edit project"
-            @click="gotoTaskBoard"
+            @click="gotoTaskBoard(project as Project)"
           />
           <!-- <VaButton
             preset="primary"

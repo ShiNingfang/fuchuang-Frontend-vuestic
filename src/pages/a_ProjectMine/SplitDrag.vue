@@ -407,40 +407,38 @@
                               tab-position="left"
                             >
                               <ElTabPane
-                                v-for="(cooperater, index) in cooperateList"
+                                v-for="(item, index) in taskSource"
                                 :key="index"
-                                :label="cooperater"
-                                :name="cooperater"
+                                :label="item.owner.id === mineId ? '自有数据' : item.owner.name"
+                                :name="item.owner.id"
                               >
                                 <ElTable
-                                  ref="multipleTable"
-                                  :data="tableData2"
+                                  :data="item.data"
                                   tooltip-effect="dark"
                                   style="width: 100%"
-                                  height="100%"
                                   show-overflow-tooltip
                                   highlight-current-row
                                   stripe
                                   @rowClick="rowClick"
-                                  @selectionChange="handleSelectionChange"
+                                  @selectionChange="selectionChangeHandler(item.owner.id)"
                                 >
                                   <ElTableColumn type="selection" width="55" align="center" />
                                   <ElTableColumn
-                                    prop="data.name"
+                                    prop="name"
                                     label="样本名称"
                                     align="center"
                                     width="100px"
                                     show-overflow-tooltip
                                   />
                                   <ElTableColumn
-                                    prop="data.number"
+                                    prop="number"
                                     label="样本记录数"
                                     align="center"
                                     width="100px"
                                     show-overflow-tooltip
                                   />
                                   <ElTableColumn
-                                    prop="data.description"
+                                    prop="description"
                                     label="描述"
                                     min-width="100px"
                                     show-overflow-tooltip
@@ -533,6 +531,8 @@ import waves from '@/directive/waves' // waves directive
 import * as echarts from 'echarts'
 
 import { useLoggerStore } from '@/stores/logger' // 假设这是你的Pinia store路径
+import { useUserStore } from '../../stores/user-store'
+const userStore = useUserStore()
 
 FlowChart.use(PluginFlowExec)
 
@@ -553,8 +553,11 @@ export default {
       isExecDisable: false,
 
       tableData2: [],
+      taskSource: [],
+      selectedSource: {}, // 用于存储每个owner选中的项
+      mineId: userStore.id,
       cooperateList: ['自有数据'],
-      SourceActiveName: '自有数据',
+      SourceActiveName: this.mineId,
       TabActiveName: 'logger',
       ResultActiveName: '',
       paramsForm: {},
@@ -649,8 +652,10 @@ export default {
         }
       })
     })
-    getTaskModel().then((data) => {
+    getTaskModel(this.$route.query.taskId).then((data) => {
       FlowChart.loadData(data)
+      // 添加一个获取selected的选项。
+      
     })
   },
   methods: {
@@ -674,7 +679,7 @@ export default {
       // console.log(FlowChart.getCompletedModel())
       // console.log(modelData)
       const res = await saveTaskModel({
-        id: 1,
+        id: this.$route.query.taskId,
         data: modelData,
       })
       console.log(res)
@@ -685,9 +690,10 @@ export default {
       }
     },
     getSimple() {
-      getTaskSource().then((response) => {
+      getTaskSource(this.$route.query.taskId).then((response) => {
         // console.log(response.data)
-        this.tableData2 = response.data
+        this.taskSource = response.data
+        console.log(this.taskSource)
       })
     },
     handleChange(val) {
@@ -763,6 +769,19 @@ export default {
 
       // 将转换后的表格数据存储在allTableData对象中，按模型类型组织
       this.allTableData[modelType] = { tableData, iterations }
+    },
+    handleSelectionChange(selectedItems, ownerId) {
+      // 更新该owner的选中项
+      this.$set(
+        this.selectedSource,
+        ownerId,
+        selectedItems.map((item) => item.id),
+      )
+    },
+    selectionChangeHandler(ownerId) {
+      return (selectedItems) => {
+        this.handleSelectionChange(selectedItems, ownerId)
+      }
     },
   },
 }

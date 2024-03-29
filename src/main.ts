@@ -13,20 +13,20 @@ import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import App from './App.vue'
 // import { mockXHR } from './mock'
 
-// import { createPinia } from 'pinia'
 // import piniaPluginPersist from 'pinia-plugin-persist'
 // import { createPinia } from 'pinia'
-// import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 // const pinia = createPinia()
-// pinia.use(piniaPluginPersistedstate)
+stores.use(piniaPluginPersistedstate)
 
 // // console.log(import.meta.env.VITE_APP_NODE_ENV)
 // if (import.meta.env.VITE_APP_NODE_ENV === 'development') {
 //   // console.log('开启mock')
 //   mockXHR()
 // }
-// 动态引入 Mock 设置的示例
+
+// 动态引入 Mock 设置
 if (import.meta.env.VITE_APP_NODE_ENV === 'development') {
   import('./mock')
     .then((mockModule) => {

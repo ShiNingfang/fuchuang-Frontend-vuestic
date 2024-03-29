@@ -6,6 +6,7 @@ const json = {
 }
 
 const string = JSON.stringify(json)
+// const string = { nodes: [], endpoints: [], edges: [], head: '' }
 console.log(string)
 console.log('hhh')
 console.log(JSON.parse(string))

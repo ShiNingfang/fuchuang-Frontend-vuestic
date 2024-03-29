@@ -4,7 +4,7 @@ import { Project, pjtUser } from '../types'
 import { SelectOption } from 'vuestic-ui'
 import { useUsers } from '../../users/composables/useUsers'
 // import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
-import UserAvatar from '../../users/widgets/UserAvatar.vue'
+import UserPhoto from './UserPhoto.vue'
 import { useUserStore } from '../../../stores/user-store'
 
 const userStore = useUserStore()
@@ -87,21 +87,21 @@ const { users: teamUsers, filters: teamFilters } = useUsers({ pagination: ref({ 
       v-model="newProject.team"
       v-model:search="teamFilters.search"
       label="合作方"
-      text-by="fullname"
+      text-by="name"
       track-by="id"
       multiple
       :rules="[(v: any) => ('length' in v && v.length > 0) || 'This field is required']"
-      :options="teamUsers"
+      :options="cooperators"
       :max-visible-options="$vaBreakpoint.mdUp ? 3 : 1"
     >
-      <template #content="{ valueArray }">
+      <!-- <template #content="{ valueArray }">
         <template v-if="valueArray">
-          <div v-for="(user, index) in valueArray" :key="user.id" class="flex items-center gap-1 mr-2">
-            <UserAvatar :user="user" size="18px" />
-            {{ user.fullname }}{{ index < valueArray.length - 1 ? ',' : '' }}
+          <div v-for="(cooperator, index) in valueArray" :key="cooperator.id" class="flex items-center gap-1 mr-2">
+            <UserPhoto :user="cooperator" size="18px" />
+            {{ cooperator.name }}{{ index < valueArray.length - 1 ? ',' : '' }}
           </div>
         </template>
-      </template>
+      </template> -->
     </VaSelect>
     <VaTextarea v-model="newProject.description" label="描述" :rules="[required]" />
     <div class="flex flex-col-reverse justify-end gap-2 mt-4 sm:flex-row">

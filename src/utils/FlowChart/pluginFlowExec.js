@@ -178,6 +178,7 @@ export default function flowExec({ instance }) {
     const nodesData = model.getData().nodes
     const edges = model.getData().edges
 
+    // const socket = io('http://10.82.175.165:5000')
     const socket = io('http://localhost:5000')
     setSocket(socket)
     // console.log(store)
