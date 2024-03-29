@@ -31,6 +31,7 @@ export const useMineData = (options?: {
         ...unref(pagination),
       },
     })
+    // console.log(data)
     mineData.value = data
 
     ignoreUpdates(() => {
@@ -85,7 +86,7 @@ export const useMineData = (options?: {
       isLoading.value = true
       await changeMineDataState({
         id: data.id,
-        status: data.status === 'public' ? 'pricate' : 'public',
+        status: data.status === 'public' ? 'private' : 'public',
       })
       await fetch()
       isLoading.value = false

@@ -10,6 +10,7 @@ const columns = defineVaDataTableColumns([
   { label: '来源', key: 'owner.name', sortable: false },
   { label: '图片数量', key: 'number', sortable: true },
   { label: '描述', key: 'description', sortable: false },
+  { label: '状态', key: 'status', sortable: false },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -71,11 +72,12 @@ const onApplyData = async (data: OtherData) => {
     <template #cell(actions)="{ rowData }">
       <div class="flex justify-end gap-2">
         <VaButton
+          v-if="rowData.status === 'disavailable'"
           preset="primary"
           size="small"
           icon="mso-edit"
           aria-label="申请使用"
-          @click="onApplyData(rowData as OtherData)"
+          @click="$emit('apply-data', rowData as OtherData)"
         />
       </div>
     </template>

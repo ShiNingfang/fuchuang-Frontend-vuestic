@@ -6,6 +6,9 @@ import UserPhoto from './UserPhoto.vue'
 // import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
 import { Pagination, Sorting } from '../../../data/pages/projects'
 import { useVModel } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+
+const { push } = useRouter()
 
 const columns = defineVaDataTableColumns([
   { label: '项目名称', key: 'project_name', sortable: true },
@@ -45,7 +48,9 @@ const emit = defineEmits<{
   (event: 'edit', project: Project): void
   (event: 'delete', project: Project): void
 }>()
-
+const gotoTaskBoard = (data: Project) => {
+  push({ path: `/projects/task/${data.id}` })
+}
 const avatarColor = (userName: string) => {
   const colors = ['primary', '#FFD43A', '#ADFF00', '#262824', 'danger']
   const index = userName.charCodeAt(0) % colors.length
@@ -98,22 +103,30 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
 
       <template #cell(actions)="{ rowData: project }">
         <div class="flex justify-end gap-2">
-          <VaButton
+          <!-- <VaButton
             preset="primary"
             size="small"
             color="primary"
             icon="mso-edit"
             aria-label="Edit project"
             @click="$emit('edit', project as Project)"
-          />
+          /> -->
           <VaButton
+            preset="primary"
+            size="small"
+            color="primary"
+            icon="mso-dialogs"
+            aria-label="Edit project"
+            @click="gotoTaskBoard"
+          />
+          <!-- <VaButton
             preset="primary"
             size="small"
             icon="mso-delete"
             color="danger"
             aria-label="Delete project"
             @click="$emit('delete', project as Project)"
-          />
+          /> -->
         </div>
       </template>
     </VaDataTable>

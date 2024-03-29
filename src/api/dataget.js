@@ -68,7 +68,7 @@ export function getOtherData(query) {
             },
             number: item.dataset_use,
             description: item.dataset_describe,
-            status: item.dataset_state,
+            status: item.available,
           })),
           pagination: res.pagination,
         })

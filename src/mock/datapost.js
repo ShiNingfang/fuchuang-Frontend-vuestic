@@ -49,6 +49,18 @@ const datapost = [
       }
     },
   },
+  {
+    url: 'application_reject',
+    type: 'post',
+    response: (config) => {
+      console.log('application_reject')
+      console.log(config)
+      return {
+        code: 200,
+        data: 'success',
+      }
+    },
+  },
 ]
 
 export default datapost

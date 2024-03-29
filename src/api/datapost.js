@@ -32,7 +32,7 @@ export function applyData(data) {
     params: {
       applicant_id: data.owner.id,
       dataset_id: data.id,
-      apply_describe: data.description,
+      apply_describe: data.usage,
       expiration_time: data.deadline,
     },
   })

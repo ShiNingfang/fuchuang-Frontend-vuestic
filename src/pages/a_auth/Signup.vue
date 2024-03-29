@@ -79,11 +79,13 @@ const submit = async () => {
       name: formData.name,
       password: formData.password,
     })
-    init({
-      message: '你已成功注册！',
-      color: 'success',
-    })
-    push({ name: 'dashboard' })
+      .then(() => {
+        init({ message: '你已经成功登录', color: 'success' })
+        push({ name: 'login' })
+      })
+      .catch((error) => {
+        init({ message: error, color: 'success' })
+      })
   }
 }
 

@@ -1,4 +1,4 @@
-export type OtherStatus = '' | 'got' | 'waiting' | 'null'
+export type OtherStatus = '' | 'available' | 'waiting' | 'disavailble'
 
 export type OtherData = {
   id: number
@@ -11,6 +11,9 @@ export type OtherData = {
   }
   number: number
   description: string
+
+  usage: string
+  deadline: Date
 
   status: OtherStatus
 }

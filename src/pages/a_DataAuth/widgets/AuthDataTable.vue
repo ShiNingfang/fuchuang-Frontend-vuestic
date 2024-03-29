@@ -55,7 +55,7 @@ const columnsArray = computed(() => {
     return [
       { label: '样本名称', key: 'name', sortable: true },
       { label: '申请者', key: 'getter', sortable: true },
-      { label: '图片数量', key: 'number', sortable: true },
+      // { label: '图片数量', key: 'number', sortable: true },
       { label: '描述', key: 'description', sortable: false },
       { label: '用途', key: 'usage', sortable: true },
       { label: '截止时间', key: 'deadline', sortable: true },
@@ -77,12 +77,25 @@ const columns = defineVaDataTableColumns(columnsArray)
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
 
 const { confirm } = useModal()
-
-const onUserDelete = async (data: AuthData) => {
+const onUserAgree = async (data: AuthData) => {
   const agreed = await confirm({
-    title: '删除样本',
-    message: `你确定要删除“${data.name}”吗?`,
-    okText: '删除',
+    title: '同意申请',
+    message: `你确定要同意对“${data.name}”的申请吗?`,
+    okText: '同意',
+    cancelText: '取消',
+    size: 'small',
+    maxWidth: '380px',
+  })
+
+  if (agreed) {
+    emit('agree-data', data)
+  }
+}
+const onUserReject = async (data: AuthData) => {
+  const agreed = await confirm({
+    title: '拒绝申请',
+    message: `你确定要拒绝对“${data.name}”的申请吗?`,
+    okText: '拒绝',
     cancelText: '取消',
     size: 'small',
     maxWidth: '380px',
@@ -113,18 +126,19 @@ const onUserDelete = async (data: AuthData) => {
           v-if="rowData.status === 'waiting'"
           preset="primary"
           size="small"
-          icon="mso-edit"
+          icon="mso-done"
           aria-label="同意申请"
-          @click="$emit('agree-data', rowData as AuthData)"
+          @click="onUserAgree(rowData as AuthData)"
         />
+        <!-- @click="$emit('agree-data', rowData as AuthData)" -->
         <VaButton
           v-if="rowData.status === 'waiting'"
           preset="primary"
           size="small"
-          icon="mso-delete"
+          icon="mso-close"
           color="danger"
           aria-label="拒绝申请"
-          @click="onUserDelete(rowData as AuthData)"
+          @click="onUserReject(rowData as AuthData)"
         />
       </div>
     </template>

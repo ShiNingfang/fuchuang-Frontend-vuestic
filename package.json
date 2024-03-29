@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
-    "dev:nomock": "cross-env VITE_APP_NODE_ENV=production vite",
+    "dev:nomock": "cross-env VITE_APP_NODE_ENV=production VITE_APP_BASE_API=http://localhost:5173 vite",
     "build": "npm run lint && vue-tsc --noEmit && vite build",
     "build:ci": "vite build",
     "start:ci": "serve -s ./dist",

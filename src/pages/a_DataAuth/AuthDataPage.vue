@@ -19,16 +19,23 @@ const showAgreeModal = (data: AuthData) => {
 
 const { init: notify } = useToast()
 
-const onUserSaved = async (data: AuthData) => {
-  {
-    usersApi.agree(data)
-    notify({
-      message: `已同意 “${data.name} ”的申请`,
-      color: 'success',
-    })
-  }
-}
+// const onUserSaved = async (data: AuthData) => {
+//   {
+//     usersApi.agree(data)
+//     notify({
+//       message: `已同意 “${data.name} ”的申请`,
+//       color: 'success',
+//     })
+//   }
+// }
 
+const onAgree = async (data: AuthData) => {
+  await usersApi.agree(data)
+  notify({
+    message: `已同意 “${data.name} ”的申请`,
+    color: 'success',
+  })
+}
 const onReject = async (data: AuthData) => {
   await usersApi.remove(data)
   notify({
@@ -37,24 +44,24 @@ const onReject = async (data: AuthData) => {
   })
 }
 
-const editFormRef = ref()
+// const editFormRef = ref()
 
-const { confirm } = useModal()
+// const { confirm } = useModal()
 
-const beforeEditFormModalClose = async (hide: () => unknown) => {
-  if (editFormRef.value.isFormHasUnsavedChanges) {
-    const agreed = await confirm({
-      maxWidth: '380px',
-      message: '有未保存的更改，确认关闭吗？',
-      size: 'small',
-    })
-    if (agreed) {
-      hide()
-    }
-  } else {
-    hide()
-  }
-}
+// const beforeEditFormModalClose = async (hide: () => unknown) => {
+//   if (editFormRef.value.isFormHasUnsavedChanges) {
+//     const agreed = await confirm({
+//       maxWidth: '380px',
+//       message: '有未保存的更改，确认关闭吗？',
+//       size: 'small',
+//     })
+//     if (agreed) {
+//       hide()
+//     }
+//   } else {
+//     hide()
+//   }
+// }
 </script>
 
 <template>
@@ -89,13 +96,13 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         :data-type="filters.authStatus"
         :loading="isLoading"
         :pagination="pagination"
-        @agreeData="showAgreeModal"
+        @agreeData="onAgree"
         @rejectData="onReject"
       />
     </VaCardContent>
   </VaCard>
 
-  <VaModal
+  <!-- <VaModal
     v-slot="{ cancel, ok }"
     v-model="doShowEditUserModal"
     size="small"
@@ -117,6 +124,6 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         }
       "
     />
-  </VaModal>
+  </VaModal> -->
 </template>
 ./composables/useAuthData

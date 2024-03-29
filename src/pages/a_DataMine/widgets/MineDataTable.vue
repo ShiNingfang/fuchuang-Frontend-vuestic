@@ -19,6 +19,7 @@ const columns = defineVaDataTableColumns([
   { label: '地址', key: 'path', sortable: false },
   { label: '授权数', key: 'auth_number', sortable: true },
   { label: '上传时间', key: 'upload_time', sortable: true },
+  { label: '状态', key: 'status', sortable: false },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -35,6 +36,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (event: 'edit-data', data: MineData): void
+  (event: 'change-status', data: MineData): void
   (event: 'delete-data', data: MineData): void
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
@@ -53,7 +55,31 @@ const sortingOrderVModel = useVModel(props, 'sortingOrder', emit)
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
 
 const { confirm } = useModal()
-
+const onStatusChange = async (data: MineData) => {
+  let agreed = undefined
+  if (data.status === 'private') {
+    agreed = await confirm({
+      title: '公开样本',
+      message: `你确定要公开“${data.name}”吗?`,
+      okText: '公开',
+      cancelText: '取消',
+      size: 'small',
+      maxWidth: '380px',
+    })
+  } else if (data.status === 'public') {
+    agreed = await confirm({
+      title: '隐藏样本',
+      message: `你确定要隐藏“${data.name}”吗?`,
+      okText: '隐藏',
+      cancelText: '取消',
+      size: 'small',
+      maxWidth: '380px',
+    })
+  }
+  if (agreed) {
+    emit('change-status', data)
+  }
+}
 const onUserDelete = async (data: MineData) => {
   const agreed = await confirm({
     title: '删除样本',
@@ -81,13 +107,23 @@ const onUserDelete = async (data: MineData) => {
     <template #cell(actions)="{ rowData }">
       <div class="flex justify-end gap-2">
         <VaButton
+          v-if="rowData.status === 'public'"
           preset="primary"
           size="small"
-          icon="mso-edit"
+          icon="mso-hide_source"
           aria-label="编辑样本"
-          @click="$emit('edit-data', rowData as MineData)"
+          @click="onStatusChange(rowData as MineData)"
         />
         <VaButton
+          v-if="rowData.status === 'private'"
+          preset="primary"
+          size="small"
+          icon="mso-cloud_upload"
+          aria-label="编辑样本"
+          @click="onStatusChange(rowData as MineData)"
+        />
+        <VaButton
+          v-if="rowData.status !== 'deleted'"
           preset="primary"
           size="small"
           icon="mso-delete"

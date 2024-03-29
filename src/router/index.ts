@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
           },
           {
             name: 'task',
-            path: 'task',
+            path: 'task/:taskId',
             component: () => import('../pages/a_ProjectMine/SplitDrag.vue'),
             meta: { fullScreen: true },
           },

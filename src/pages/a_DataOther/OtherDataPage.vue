@@ -3,10 +3,18 @@ import { ref } from 'vue'
 import OtherDataTable from './widgets/OtherDataTable.vue'
 import { OtherData } from './types'
 import { useOtherData } from './composables/useOtherData'
-import { useToast } from 'vuestic-ui'
+import { useModal, useToast } from 'vuestic-ui'
+import EditOtherDataForm from './widgets/EditOtherDataForm.vue'
 
 const { otherData, isLoading, filters, sorting, pagination, ...usersApi } = useOtherData()
+const doShowEditUserModal = ref(false)
 
+const dataToEdit = ref<OtherData | null>(null)
+
+const showApplyModal = (data: OtherData) => {
+  dataToEdit.value = data
+  doShowEditUserModal.value = true
+}
 const { init: notify } = useToast()
 
 const onUserApply = async (data: OtherData) => {
@@ -15,6 +23,33 @@ const onUserApply = async (data: OtherData) => {
     message: `已经发送样本“${data.name}”的申请`,
     color: 'success',
   })
+}
+
+// const onUserSaved = async (data: OtherData) => {
+//   {
+//     usersApi.agree(data)
+//     notify({
+//       message: `已同意 “${data.name} ”的申请`,
+//       color: 'success',
+//     })
+//   }
+// }
+const editFormRef = ref()
+
+const { confirm } = useModal()
+const beforeEditFormModalClose = async (hide: () => unknown) => {
+  if (editFormRef.value.isFormHasUnsavedChanges) {
+    const agreed = await confirm({
+      maxWidth: '380px',
+      message: '有未保存的更改，确认关闭吗？',
+      size: 'small',
+    })
+    if (agreed) {
+      hide()
+    }
+  } else {
+    hide()
+  }
 }
 </script>
 
@@ -49,9 +84,32 @@ const onUserApply = async (data: OtherData) => {
         :data="otherData"
         :loading="isLoading"
         :pagination="pagination"
-        @applyData="onUserApply"
+        @applyData="showApplyModal"
       />
     </VaCardContent>
   </VaCard>
+  <VaModal
+    v-slot="{ cancel, ok }"
+    v-model="doShowEditUserModal"
+    size="small"
+    mobile-fullscreen
+    close-button
+    hide-default-actions
+    :before-cancel="beforeEditFormModalClose"
+  >
+    <h1 class="va-h5">{{ dataToEdit ? '编辑样本' : '添加样本' }}</h1>
+    <EditOtherDataForm
+      ref="editFormRef"
+      :data="dataToEdit"
+      :save-button-label="dataToEdit ? '保存' : '添加'"
+      @close="cancel"
+      @save="
+        (data) => {
+          onUserApply(data)
+          ok()
+        }
+      "
+    />
+  </VaModal>
 </template>
 ./composables/useOtherData

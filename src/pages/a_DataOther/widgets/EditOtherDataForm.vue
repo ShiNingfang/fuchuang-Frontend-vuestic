@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { PropType, computed, ref, watch } from 'vue'
 import { useForm } from 'vuestic-ui'
-import { AuthData } from '../types'
+import { OtherData } from '../types'
 // import UserAvatar from './UserAvatar.vue'
 import { validators } from '../../../services/utils'
 
 const props = defineProps({
   data: {
-    type: Object as PropType<AuthData | null>,
+    type: Object as PropType<OtherData | null>,
     default: null,
   },
   saveButtonLabel: {
@@ -16,14 +16,14 @@ const props = defineProps({
   },
 })
 
-const defaultNewData: AuthData = {
+const defaultNewData: OtherData = {
   id: -1,
 
   name: '',
-  getter: {
+  owner: {
     id: -1,
     name: '',
-    photo: '',
+    photo: '', // 网址，或者是空
   },
   number: 0,
   description: '',
@@ -34,7 +34,7 @@ const defaultNewData: AuthData = {
   status: '',
 }
 
-const newData = ref<AuthData>({ ...defaultNewData })
+const newData = ref<OtherData>({ ...defaultNewData })
 
 const validationRules = [
   (val) => {
@@ -51,7 +51,7 @@ const isFormHasUnsavedChanges = computed(() => {
     //   return false
     // }
 
-    return newData.value[key as keyof AuthData] !== (props.data ?? defaultNewData)?.[key as keyof AuthData]
+    return newData.value[key as keyof OtherData] !== (props.data ?? defaultNewData)?.[key as keyof OtherData]
   })
 })
 

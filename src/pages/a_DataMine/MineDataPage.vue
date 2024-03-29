@@ -9,7 +9,8 @@ import { useModal, useToast } from 'vuestic-ui'
 const doShowEditUserModal = ref(false)
 
 const { mineData, isLoading, filters, sorting, pagination, ...usersApi } = useMineData()
-
+console.log(mineData)
+// console.log(mineData.value)
 const dataToEdit = ref<MineData | null>(null)
 
 const showEditUserModal = (data: MineData) => {
@@ -39,6 +40,22 @@ const onUserSaved = async (data: MineData) => {
       color: 'success',
     })
   }
+}
+const onStatusChange = async (data: MineData) => {
+  await usersApi
+    .changeState(data)
+    .then(() => {
+      notify({
+        message: `操作成功`,
+        color: 'success',
+      })
+    })
+    .catch((error) => {
+      notify({
+        message: error,
+        color: 'filed',
+      })
+    })
 }
 
 const onUserDelete = async (data: MineData) => {
@@ -101,9 +118,10 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         :data="mineData"
         :loading="isLoading"
         :pagination="pagination"
-        @editData="showEditUserModal"
+        @changeStatus="onStatusChange"
         @deleteData="onUserDelete"
       />
+      <!-- @editData="showEditUserModal" -->
     </VaCardContent>
   </VaCard>
 
