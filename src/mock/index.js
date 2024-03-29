@@ -2,14 +2,14 @@ import Mock from 'mockjs'
 
 import { param2Obj } from './utils'
 import task from './task'
-import minedata from './minedata'
+// import minedata from './minedata'
 import dataget from './dataget'
 import datapost from './datapost'
 import projectget from './projectget'
 import projectpost from './projectpost'
 import auth from './auth'
 
-const mocks = [...task, ...minedata, ...dataget, ...datapost, ...projectget, ...projectpost, ...auth]
+const mocks = [...task, ...dataget, ...datapost, ...projectget, ...projectpost, ...auth]
 console.log('mock-index')
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,

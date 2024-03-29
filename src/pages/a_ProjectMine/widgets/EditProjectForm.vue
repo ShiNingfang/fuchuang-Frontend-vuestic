@@ -20,6 +20,7 @@ defineEmits<{
 }>()
 
 const defaultNewProject: Project = {
+  id: -1,
   project_name: '',
   type: '横向建模',
   team: [],

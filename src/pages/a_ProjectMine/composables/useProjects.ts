@@ -1,5 +1,5 @@
 import { Ref, ref, unref } from 'vue'
-import { updateProject, removeProject, Sorting, Pagination } from '../../../data/pages/projects'
+import { Sorting, Pagination } from '../../../data/pages/projects'
 import { Project, pjtUser } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 import { getMineProject, getAvailable } from '../../../api/projectget'
