@@ -16,7 +16,7 @@ export function getMineProject(query) {
       },
     })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         resolve({
           code: res.code,
           data: res.data.map((item) => ({
@@ -48,14 +48,15 @@ export function getMineProject(query) {
 export function getAvailable(query) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/self_project_cooperator',
+      url: '/project_cooperator',
       method: 'get',
       params: {
         user_id: query.id,
       },
     })
       .then((res) => {
-        console.log(res)
+        // console.log('/self_project_cooperator')
+        console.log(res.data)
         resolve({
           code: res.code,
           data: res.data.map((item) => ({
@@ -63,7 +64,7 @@ export function getAvailable(query) {
             name: item.cooperator_name,
             photo: item.cooperator_avatar,
           })),
-          pagination: res.pagination,
+          // pagination: res.pagination,
         })
       })
       .catch((error) => {

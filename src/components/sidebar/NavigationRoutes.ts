@@ -43,10 +43,10 @@ export default {
           name: 'mine-project',
           displayName: 'menu.mine-project',
         },
-        {
-          name: 'task',
-          displayName: 'menu.task',
-        },
+        // {
+        //   name: 'task',
+        //   displayName: 'menu.task',
+        // },
         {
           name: 'other-project',
           displayName: 'menu.other-project',

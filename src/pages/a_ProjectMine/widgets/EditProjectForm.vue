@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { EmptyProject, Project } from '../types'
+import { Project, pjtUser } from '../types'
 import { SelectOption } from 'vuestic-ui'
 import { useUsers } from '../../users/composables/useUsers'
 // import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
@@ -9,6 +9,7 @@ import { useUserStore } from '../../../stores/user-store'
 
 const userStore = useUserStore()
 const props = defineProps<{
+  cooperators: pjtUser | null
   project: Project | null
   saveButtonLabel: string
 }>()
@@ -18,22 +19,17 @@ defineEmits<{
   (event: 'close'): void
 }>()
 
-const defaultNewProject: EmptyProject = {
+const defaultNewProject: Project = {
   project_name: '',
   type: '横向建模',
   team: [],
   description: '',
-  creation_date: new Date(),
+  create_date: new Date(),
 
   project_owner: {
     id: userStore.id,
-    email: userStore.email,
-    fullname: userStore.fullname,
-    username: userStore.username,
-    role: userStore.role,
-    avatar: userStore.avatar, // 注意，如果avatar是undefined，也会被这样直接复制
-    notes: userStore.notes,
-    active: userStore.active,
+    name: userStore.name,
+    photo: userStore.avatar, // 注意，如果avatar是undefined，也会被这样直接复制
   },
   status: undefined,
 }
@@ -46,9 +42,7 @@ const isFormHasUnsavedChanges = computed(() => {
       return false
     }
 
-    return (
-      newProject.value[key as keyof EmptyProject] !== (props.project ?? defaultNewProject)?.[key as keyof EmptyProject]
-    )
+    return newProject.value[key as keyof Project] !== (props.project ?? defaultNewProject)?.[key as keyof Project]
   })
 })
 
@@ -125,4 +119,3 @@ const { users: teamUsers, filters: teamFilters } = useUsers({ pagination: ref({ 
   gap: 0.2rem;
 }
 </style>
-../../../stores/modules/user-store

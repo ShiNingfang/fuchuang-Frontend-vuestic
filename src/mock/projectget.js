@@ -24,13 +24,13 @@ const generateCooperator = () => ({
   cooperator_avatar: Mock.Random.image('200x200', Mock.Random.color()),
 })
 
-const projects = Mock.mock({
-  'list|20': [generateProject()],
-}).list
+const projects = []
+const cooperators = []
 
-const cooperators = Mock.mock({
-  'list|20': [generateCooperator()],
-}).list
+for (let i = 0; i < 20; i++) {
+  projects.push(generateProject())
+  cooperators.push(generateCooperator())
+}
 
 const pagination = {
   page: 1,
@@ -54,14 +54,16 @@ const projectget = [
   },
   // 项目-可选合作方
   {
-    url: '/self_project_cooperator',
+    url: '/project_cooperator',
     type: 'get',
     response: (config) => {
       console.log(config)
+      console.log(`project_cooperator mock`)
+      console.log(cooperators)
       return {
         code: 200,
         data: cooperators,
-        pagination,
+        // pagination,
       }
     },
   },

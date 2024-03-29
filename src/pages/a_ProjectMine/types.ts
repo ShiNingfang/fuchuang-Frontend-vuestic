@@ -18,7 +18,7 @@ export type Project = {
   status?: 'important' | 'completed' | 'archived' | 'in progress'
 }
 
-export type EmptyProject = Omit<Project, 'id' | 'project_name' | 'type' | 'team' | 'description' | 'creation_date'> & {
-  project_owner?: Project['project_owner'] // 假设你后续添加这个属性
-  status?: Project['status'] // 假设你后续添加这个属性
-}
+// export type EmptyProject = Omit<Project, 'id' | 'project_name' | 'type' | 'team' | 'description' | 'creation_date'> & {
+//   project_owner?: Project['project_owner'] // 假设你后续添加这个属性
+//   status?: Project['status'] // 假设你后续添加这个属性
+// }

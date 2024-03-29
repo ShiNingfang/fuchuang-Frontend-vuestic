@@ -10,7 +10,7 @@ import { useModal, useToast } from 'vuestic-ui'
 
 const doShowAsCards = useLocalStorage('projects-view', true)
 
-const { projects, add, isLoading, pagination, sorting } = useProjects() // update, remove
+const { projects, cooperators, add, isLoading, pagination, sorting } = useProjects() // update, remove
 // 项目列表，更新，添加，是否转圈，删除，分页指示，排序数据（依据，list）
 
 const projectToEdit = ref<Project | null>(null)
@@ -141,6 +141,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
       <h1 v-else class="mb-4 va-h5">编辑项目</h1>
       <EditProjectForm
         ref="editFormRef"
+        :cooperators="cooperators"
         :project="projectToEdit"
         :save-button-label="projectToEdit === null ? '添加' : '保存'"
         @close="cancel"

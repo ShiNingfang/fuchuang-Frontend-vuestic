@@ -5,7 +5,7 @@ export const useUserStore = defineStore('user', {
     memberSince: '',
     pfp: '',
     is2FAEnabled: false,
-    id: '',
+    id: -1,
     name: '',
     avatar: '',
     email: '', // 初始化为空字符串
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
       this.name = userName
     },
 
-    saveLoginInfo(id: string, name: string, avatar: string) {
+    saveLoginInfo(id: number, name: string, avatar: string) {
       this.id = id
       this.name = name
       this.avatar = avatar
