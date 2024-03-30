@@ -408,6 +408,29 @@
                             >
                               <ElTabPane
                                 v-for="(item, index) in taskSource"
+                                :key="item.owner.id"
+                                :label="item.owner.id === mineId ? '自有数据' : item.owner.name"
+                                :name="item.owner.id"
+                              >
+                                <ElTable
+                                  v-model:selected="selectedSource[item.owner.id]"
+                                  :data="item.data"
+                                  :row-key="(record) => record.id"
+                                  style="width: 100%"
+                                  tooltip-effect="dark"
+                                  show-overflow-tooltip
+                                  highlight-current-row
+                                  stripe
+                                  @selectionChange="(selection) => updateSelectedSource(selection, item.owner.id)"
+                                >
+                                  <ElTableColumn type="selection" width="55" />
+                                  <ElTableColumn prop="name" label="样本名称" width="100px" />
+                                  <ElTableColumn prop="number" label="样本记录数" width="100px" />
+                                  <ElTableColumn prop="description" label="描述" min-width="100px" />
+                                </ElTable>
+                              </ElTabPane>
+                              <!-- <ElTabPane
+                                v-for="(item, index) in taskSource"
                                 :key="index"
                                 :label="item.owner.id === mineId ? '自有数据' : item.owner.name"
                                 :name="item.owner.id"
@@ -444,7 +467,7 @@
                                     show-overflow-tooltip
                                   />
                                 </ElTable>
-                              </ElTabPane>
+                              </ElTabPane> -->
                             </ElTabs>
                           </div>
                         </div>
@@ -599,8 +622,9 @@ export default {
       }
     },
     currentNodeId(val) {
-      this.paramsForm = FlowChart.getNodeParams(val)
+      // this.paramsForm = FlowChart.getNodeParams(val)
       this.node = FlowChart.getNode(val)
+      this.paramsForm = this.node.data.params
     },
   },
   created() {
@@ -654,9 +678,11 @@ export default {
     })
     getTaskModel(this.$route.query.taskId).then((data) => {
       FlowChart.loadData(data)
-      // 添加一个获取selected的选项。
-      
+      // 添加一个获取selected和设置selected的。
+      console.log(FlowChart.getNodeParams('数据源'))
     })
+
+    this.initializeSelectedSource()
   },
   methods: {
     dragoverHandle(ev) {
@@ -770,18 +796,19 @@ export default {
       // 将转换后的表格数据存储在allTableData对象中，按模型类型组织
       this.allTableData[modelType] = { tableData, iterations }
     },
-    handleSelectionChange(selectedItems, ownerId) {
-      // 更新该owner的选中项
-      this.$set(
-        this.selectedSource,
-        ownerId,
-        selectedItems.map((item) => item.id),
-      )
+    initializeSelectedSource() {
+      this.taskSource.forEach((item) => {
+        if (!this.selectedSource[item.owner.id]) {
+          this.$set(this.selectedSource, item.owner.id, [])
+        }
+      })
     },
-    selectionChangeHandler(ownerId) {
-      return (selectedItems) => {
-        this.handleSelectionChange(selectedItems, ownerId)
-      }
+    // 更新选中状态的方法
+    updateSelectedSource(selected, ownerId) {
+      // console.log('select')
+      this.selectedSource[ownerId] = selected.map((item) => item.id)
+      console.log(this.selectedSource)
+      FlowChart.setNodeParams('数据源', this.selectedSource)
     },
   },
 }

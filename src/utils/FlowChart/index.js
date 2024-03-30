@@ -76,13 +76,19 @@ const FlowChart = {
     return model.getData()
   },
 
-  getNodeParams(nodeId) {
-    return model.getData().nodes.find((node) => node.id === nodeId).data.params
+  getNodeParams(nodeType) {
+    const node = model.getData().nodes.find((node) => node.data.type === nodeType)
+    if (node) {
+      return node.data.params
+    }
+    return {}
   },
 
-  setNodeParams(nodeId, params) {
-    model.getData().nodes.find((node) => node.id === nodeId).data.params =
-      params
+  setNodeParams(nodeType, params) {
+    const node = model.getData().nodes.find((node) => node.data.type === nodeType)
+    if (node) {
+      node.data.params = params
+    }
   },
 
   getNode(nodeId) {
@@ -103,7 +109,7 @@ const FlowChart = {
           model,
           contentMenu,
         },
-      ].concat(args)
+      ].concat(args),
     )
   },
 }

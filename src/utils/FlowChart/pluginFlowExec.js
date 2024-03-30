@@ -3,6 +3,20 @@ import { CONNECTORSEPARATESYMBOL } from './const'
 import FlowChart from './index'
 import model from './model'
 import io from 'socket.io-client'
+import axios from 'axios'
+
+function sendDataSourceApply(data) {
+  axios
+    .post('http://其他机器的地址:3001/data_source', data)
+    .then((response) => {
+      console.log('Response:', response.data)
+      // 处理响应
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+      // 处理错误
+    })
+}
 
 export default function flowExec({ instance }) {
   /**
@@ -129,6 +143,9 @@ export default function flowExec({ instance }) {
       let isModel = false
       if (node.data.type === '数据源') {
         await timeout(() => {}, 1000)
+        // 在这里增加处理（1.等待所有服务器的同意。）
+        // 同意之后，还会继续保持联系。而服务器端还会再开一个客户端，连接后端的5000
+        //
       } else if (algorithmList.includes(node.data.type)) {
         isModel = true
         await handleNode(socket, node)
@@ -181,6 +198,8 @@ export default function flowExec({ instance }) {
     // const socket = io('http://10.82.175.165:5000')
     const socket = io('http://localhost:5000')
     setSocket(socket)
+    // 也就是说，其实source里面的params里存的不止如此？？
+    sendDataSourceApply()
     // console.log(store)
     await breadthFirstTraversal(rootNodeId, nodesData, edges, store, socket)
   }
